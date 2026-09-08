@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor de Tarjeta de Visita Profesional | Goldenplac SL</title>
+  <link rel="icon" type="image/png" href="assets/images/logo-goldenplac.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold-1: #dfba73;
+      --gold-2: #c5a059;
+      --gold-3: #9e7935;
+      --gold-gradient: linear-gradient(135deg, #f5e0aa 0%, #c5a059 50%, #9e7935 100%);
+      --bg-dark: #060d18;
+      --bg-panel: #0a1526;
+      --border-panel: rgba(255, 255, 255, 0.08);
+      --border-gold: rgba(197, 160, 89, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Studio Bar */
+    .studio-navbar {
+      background: #091526;
+      border-bottom: 1px solid var(--border-panel);
+      padding: 0.85rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .studio-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .studio-logo {
+      width: 34px;
+      height: 34px;
+      background: var(--gold-gradient);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #060d18;
+      font-weight: 800;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3);
+    }
+
+    .studio-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .studio-title span {
+      color: var(--gold-2);
+    }
+
+    .studio-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.6rem 1.15rem;
+      border-radius: 9999px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-gold {
+      background: var(--gold-gradient);
+      color: #060d18;
+      border: none;
+      box-shadow: 0 4px 15px rgba(197, 160, 89, 0.35);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(197, 160, 89, 0.45);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-panel);
+      color: #cbd5e1;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    /* Main Studio Layout: Editor (Left) + Preview (Right) */
+    .studio-layout {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      flex-grow: 1;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+    }
+
+    /* Left Sidebar: Controls Form */
+    .studio-editor-panel {
+      background: var(--bg-panel);
+      border-right: 1px solid var(--border-panel);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .editor-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-panel);
+      background: rgba(0, 0, 0, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .editor-tab-btn {
+      flex: 1;
+      padding: 0.85rem 0.5rem;
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s ease;
+    }
+
+    .editor-tab-btn.active {
+      color: var(--gold-1);
+      border-bottom-color: var(--gold-2);
+      background: rgba(197, 160, 89, 0.05);
+    }
+
+    .editor-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .editor-section {
+      display: none;
+      flex-direction: column;
+      gap: 1.15rem;
+      width: 100%;
+    }
+
+    .editor-section.active {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      width: 100%;
+    }
+
+    .form-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      background: #060e1a;
+      border: 1px solid var(--border-panel);
+      border-radius: 8px;
+      padding: 0.75rem 0.95rem;
+      color: #ffffff;
+      font-size: 0.92rem;
+      outline: none;
+      transition: 0.2s ease;
+      font-family: inherit;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--gold-2);
+      box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.2);
+    }
+
+    .form-hint {
+      font-size: 0.72rem;
+      color: #64748b;
+    }
+
+    /* Range Sliders for Dimension & Position Control */
+    .range-control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .range-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    .range-val {
+      color: var(--gold-1);
+      font-weight: 700;
+      font-size: 0.78rem;
+      background: rgba(197, 160, 89, 0.12);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .form-range {
+      width: 100%;
+      height: 6px;
+      background: #060e1a;
+      border: 1px solid var(--border-panel);
+      border-radius: 9999px;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .form-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--gold-gradient);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+      cursor: pointer;
+      border: 2px solid #060d18;
+      transition: transform 0.15s ease;
+    }
+
+    .form-range::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .upload-card-box {
+      border: 2px dashed rgba(197, 160, 89, 0.35);
+      background: rgba(197, 160, 89, 0.04);
+      border-radius: 12px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+    }
+
+    .upload-card-box:hover {
+      border-color: var(--gold-2);
+      background: rgba(197, 160, 89, 0.08);
+      transform: translateY(-1px);
+    }
+
+    /* Style Preset Chips */
+    .theme-palette-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+    }
+
+    .theme-option {
+      background: #060e1a;
+      border: 1px solid var(--border-panel);
+      border-radius: 10px;
+      padding: 0.65rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .theme-option:hover {
+      border-color: var(--gold-2);
+    }
+
+    .theme-option.active {
+      border-color: var(--gold-2);
+      background: rgba(197, 160, 89, 0.1);
+    }
+
+    .theme-color-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      margin: 0 auto 0.35rem auto;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    .theme-name {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    /* Right Preview Area */
+    .studio-preview-panel {
+      background: radial-gradient(circle at 60% 40%, #0d1e34 0%, #030712 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem 1.5rem;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .preview-stage-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .preview-stage-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .preview-stage-header p {
+      font-size: 0.84rem;
+      color: #94a3b8;
+    }
+
+    .cards-stage {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      justify-content: center;
+      align-items: center;
+      perspective: 1000px;
+      max-width: 1050px;
+      width: 100%;
+    }
+
+    .card-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .card-side-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-1);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* EXACT 85mm x 55mm Ratio Luxury Card Box */
+    .business-card {
+      width: 440px;
+      height: 284px; /* Exact 85:55 aspect ratio */
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(197, 160, 89, 0.15);
+      border: 1px solid rgba(197, 160, 89, 0.35);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .business-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.95), 0 0 45px rgba(197, 160, 89, 0.25);
+    }
+
+    /* ----------------------------------------------------
+       CARA 1: FRONTAL (FRONT FACE - FOTO AJUSTABLE CON MEDIDAS)
+       ---------------------------------------------------- */
+    .card-front {
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-front::before {
+      display: none;
+    }
+
+    .card-front-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 50%;
+      display: block;
+      border-radius: 11px;
+      transform-origin: center center;
+      transition: transform 0.05s ease, object-position 0.05s ease;
+      user-select: none;
+    }
+
+    .front-logo-svg {
+      width: 220px;
+      height: 88px;
+      margin-bottom: 0.35rem;
+      display: block;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+    }
+
+    .front-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.2rem;
+      line-height: 1.1;
+      filter: drop-shadow(0 2px 8px rgba(197, 160, 89, 0.35));
+    }
+
+    .front-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--gold-1);
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      max-width: 340px;
+    }
+
+    .front-location {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.74rem;
+      color: #94a3b8;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    /* ----------------------------------------------------
+       CARA 2: TRASERA (BACK FACE)
+       ---------------------------------------------------- */
+    .card-back {
+      background: linear-gradient(145deg, #0b1424 0%, #050a13 100%);
+      padding: 1.5rem 1.65rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-back::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(197, 160, 89, 0.15);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .back-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.6rem;
+    }
+
+    .back-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .back-brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .back-brand-tag {
+      font-size: 0.65rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .back-body {
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 1rem;
+      align-items: center;
+      margin: 0.4rem 0;
+    }
+
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.8rem;
+      color: #f1f5f9;
+      text-decoration: none;
+    }
+
+    .contact-icon-box {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: rgba(197, 160, 89, 0.15);
+      border: 1px solid rgba(197, 160, 89, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-1);
+      flex-shrink: 0;
+    }
+
+    .contact-text strong {
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+
+    .qr-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 10px;
+      padding: 0.6rem 0.5rem;
+    }
+
+    .qr-box {
+      width: 76px;
+      height: 76px;
+      background: #ffffff;
+      border-radius: 6px;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.35rem;
+      overflow: hidden;
+    }
+
+    .qr-box img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .qr-caption {
+      font-size: 0.58rem;
+      color: var(--gold-1);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+    }
+
+    .back-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 0.5rem;
+    }
+
+    .services-chips {
+      font-size: 0.64rem;
+      color: #94a3b8;
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .services-chips span.dot {
+      color: var(--gold-2);
+    }
+
+    .guarantee-badge {
+      font-size: 0.62rem;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 9999px;
+      white-space: nowrap;
+    }
+
+    /* Toast Notification */
+    .save-toast {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #0d1e34;
+      border: 1px solid var(--border-gold);
+      color: #fff;
+      padding: 0.9rem 1.4rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: 0.3s ease;
+      z-index: 1000;
+    }
+
+    .save-toast.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive Mobile adjustments */
+    @media (max-width: 1024px) {
+      .studio-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow: visible;
+      }
+      .studio-editor-panel {
+        height: auto;
+        order: 2;
+      }
+      .studio-preview-panel {
+        order: 1;
+        padding: 2rem 1rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .business-card {
+        width: 320px;
+        height: 206px; /* Scaled 85x55 ratio */
+      }
+      .front-title {
+        font-size: 1.6rem;
+      }
+      .front-subtitle {
+        font-size: 0.58rem;
+        margin-bottom: 0.75rem;
+      }
+      .front-logo-icon {
+        width: 50px;
+        height: 42px;
+      }
+      .card-back {
+        padding: 1rem 1.1rem;
+      }
+      .contact-text strong {
+        font-size: 0.74rem;
+      }
+      .contact-item {
+        font-size: 0.7rem;
+        gap: 0.4rem;
+      }
+      .qr-box {
+        width: 56px;
+        height: 56px;
+      }
+      .services-chips {
+        font-size: 0.54rem;
+      }
+    }
+
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .studio-navbar, .studio-editor-panel, .preview-stage-header, .card-side-label, .save-toast {
+        display: none !important;
+      }
+      .studio-preview-panel {
+        background: none !important;
+        padding: 15mm 0 !important;
+        width: 100% !important;
+        overflow: visible !important;
+      }
+      .cards-stage {
+        gap: 15mm !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+      }
+      .business-card {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
+        border: 1px solid #c5a059 !important;
+        page-break-inside: avoid !important;
+        margin: 0 auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Studio Navigation Bar -->
+  <header class="studio-navbar">
+    <div class="studio-brand">
+      <div class="studio-logo" style="width: 48px; height: 36px; padding: 2px; overflow: hidden; background: #020610; border: 1px solid rgba(197, 160, 89, 0.4); border-radius: 8px;">
+        <img src="assets/images/logo-icon-card.jpg" alt="Goldenplac Logo" style="width: 100%; height: 100%; object-fit: contain; display: block;">
+      </div>
+      <div class="studio-title">GOLDEN<span>PLAC</span> • Diseñador de Tarjeta de Visita</div>
+    </div>
+    <div class="studio-actions">
+      <button type="button" class="btn btn-outline" onclick="resetToDefaults()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+        <span>Restablecer</span>
+      </button>
+      <button type="button" class="btn btn-gold" onclick="window.print()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        <span>Imprimir / PDF</span>
+      </button>
+      <a href="admin.html" class="btn btn-outline" id="adminBackBtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Panel Admin</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="studio-layout">
+
+    <!-- LEFT: Interactive Editor Form -->
+    <aside class="studio-editor-panel">
+      <div class="editor-tabs">
+        <button class="editor-tab-btn active" onclick="switchEditorTab('tab-front', this)">🖼️ Cara 1 (Foto)</button>
+        <button class="editor-tab-btn" onclick="switchEditorTab('tab-general', this)">Cara 2 (Textos)</button>
+        <button class="editor-tab-btn" onclick="switchEditorTab('tab-contact', this)">Contacto & QR</button>
+        <button class="editor-tab-btn" onclick="switchEditorTab('tab-style', this)">Estilo & Color</button>
+      </div>
+
+      <div class="editor-content">
+        
+        <!-- SECTION 0: Cara 1 (Foto & Control de Medidas) -->
+        <div id="section-front" class="editor-section active">
+          
+          <div class="form-group" style="margin-bottom: 0.8rem;">
+            <label class="form-label">Subir Otra Foto para Cara 1</label>
+            <div class="upload-card-box" onclick="document.getElementById('fileFrontImage').click()">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--gold-1);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <div style="font-size: 0.84rem; font-weight: 700; color: #f8fafc;">Seleccionar foto de tu PC o Teléfono</div>
+              <div style="font-size: 0.72rem; color: #94a3b8;">Formatos JPG, PNG, WEBP (se adapta al instante)</div>
+              <input type="file" id="fileFrontImage" accept="image/*" style="display: none;" onchange="handleFrontImageUpload(event)">
+            </div>
+          </div>
+
+          <!-- Presets -->
+          <div class="form-group" style="margin-bottom: 0.8rem;">
+            <label class="form-label">Diseños Rápidos</label>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button type="button" class="btn btn-outline" style="font-size: 0.74rem; padding: 0.4rem 0.75rem;" onclick="setPresetFrontImage('assets/images/tarjeta-frontal-gold.jpg')">🌟 Oficial Oro 3D</button>
+              <button type="button" class="btn btn-outline" style="font-size: 0.74rem; padding: 0.4rem 0.75rem;" onclick="setPresetFrontImage('assets/images/tarjeta-frontal-original.jpg')">📸 Mockup Pizarra</button>
+            </div>
+          </div>
+
+          <!-- URL Input -->
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label">Ruta o Enlace de la Imagen</label>
+            <input type="text" id="inputFrontImgUrl" class="form-input" value="assets/images/tarjeta-frontal-gold.jpg" oninput="changeFrontImageSrc(this.value)">
+          </div>
+
+          <!-- SIZING & POSITION CONTROLS (التحكم في المقاسات والأبعاد) -->
+          <div style="background: rgba(0,0,0,0.35); border: 1px solid var(--border-gold); border-radius: 12px; padding: 1.1rem; display: flex; flex-direction: column; gap: 1rem;">
+            <div style="font-size: 0.86rem; font-weight: 700; color: var(--gold-1); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.5rem;">
+              <span>📐 Control de Medidas & Posición</span>
+              <button type="button" class="btn btn-outline" style="font-size: 0.7rem; padding: 0.25rem 0.6rem;" onclick="resetFrontImageSliders()">↺ Restablecer</button>
+            </div>
+
+            <!-- Zoom / Escala -->
+            <div class="range-control-group">
+              <div class="range-header">
+                <span>Zoom / Escala</span>
+                <span class="range-val" id="valFrontScale">100%</span>
+              </div>
+              <input type="range" id="sliderFrontScale" class="form-range" min="50" max="250" value="100" oninput="updateFrontImageTransform()">
+            </div>
+
+            <!-- Posición X -->
+            <div class="range-control-group">
+              <div class="range-header">
+                <span>Posición Horizontal (X)</span>
+                <span class="range-val" id="valFrontX">50%</span>
+              </div>
+              <input type="range" id="sliderFrontX" class="form-range" min="0" max="100" value="50" oninput="updateFrontImageTransform()">
+            </div>
+
+            <!-- Posición Y -->
+            <div class="range-control-group">
+              <div class="range-header">
+                <span>Posición Vertical (Y)</span>
+                <span class="range-val" id="valFrontY">50%</span>
+              </div>
+              <input type="range" id="sliderFrontY" class="form-range" min="0" max="100" value="50" oninput="updateFrontImageTransform()">
+            </div>
+
+            <!-- Modo de Ajuste -->
+            <div class="form-group">
+              <label class="form-label">Modo de Ajuste</label>
+              <select id="selectFrontFit" class="form-select" onchange="updateFrontImageTransform()">
+                <option value="cover">Llenar Tarjeta Completa (Cover - Recomendado)</option>
+                <option value="contain">Ajustar Imagen Completa (Contain)</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SECTION 1: Textos & Marca (Cara 2) -->
+        <div id="section-general" class="editor-section">
+          <div style="background: rgba(197, 160, 89, 0.12); border: 1px solid rgba(197, 160, 89, 0.35); border-radius: 10px; padding: 0.85rem 1rem; font-size: 0.84rem; color: #f8fafc; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span style="font-size: 1.4rem;">🌟</span>
+            <div>
+              <strong style="color: var(--gold-1); display: block; margin-bottom: 0.15rem;">Cara 1 (Frontal) fijada al 100%:</strong>
+              Diseño oficial en relieve 3D dorado metálico (GOLDENPLAC • Pladur y Reformas Madrid).
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label">Nombre de la Empresa (Cara 2)</label>
+            <input type="text" id="inputBrandName" class="form-input" value="GOLDENPLAC" oninput="updateCardPreview()">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label">Subtítulo / Especialidad (Cara 1)</label>
+            <input type="text" id="inputSubtitle" class="form-input" value="Especialistas en Pladur y Reformas" oninput="updateCardPreview()">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label">Zona Geográfica (Cara 1)</label>
+            <input type="text" id="inputLocation" class="form-input" value="Madrid • Toda la Comunidad" oninput="updateCardPreview()">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label">Texto de Etiqueta (Cara 2 Arriba)</label>
+            <input type="text" id="inputTagline" class="form-input" value="Reformas e Instalación" oninput="updateCardPreview()">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label">Servicios Destacados (Pie Cara 2)</label>
+            <input type="text" id="inputServices" class="form-input" value="Techos LED • Tabiquería • Insonorización • Muebles TV" oninput="updateCardPreview()">
+            <span class="form-hint">Separa cada servicio con el símbolo • para que quede ordenado.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Insignia de Garantía (Pie Cara 2)</label>
+            <input type="text" id="inputGuarantee" class="form-input" value="Garantía por escrito" oninput="updateCardPreview()">
+          </div>
+        </div>
+
+        <!-- SECTION 2: Contacto & QR -->
+        <div id="section-contact" class="editor-section">
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label">Teléfono & WhatsApp Principal</label>
+            <input type="text" id="inputPhone" class="form-input" value="+34 634 28 34 51" oninput="updateCardPreview()">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label">Correo Electrónico (Email)</label>
+            <input type="email" id="inputEmail" class="form-input" value="goldenplac85@gmail.com" oninput="updateCardPreview()">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label">Sitio Web</label>
+            <input type="text" id="inputWebsite" class="form-input" value="www.goldenplac.es" oninput="updateCardPreview()">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label">Dirección / Sede</label>
+            <input type="text" id="inputAddress" class="form-input" value="C/ de Humera, 14 • Fuenlabrada" oninput="updateCardPreview()">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label">Destino del Código QR</label>
+            <select id="selectQrType" class="form-select" onchange="updateQrDestination()">
+              <option value="whatsapp">Abrir Chat de WhatsApp Directo</option>
+              <option value="website">Abrir Sitio Web</option>
+              <option value="custom">URL Personalizada</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="groupCustomQrUrl" style="display: none; margin-bottom: 1rem;">
+            <label class="form-label">Enlace Personalizado para el QR</label>
+            <input type="text" id="inputCustomQrUrl" class="form-input" placeholder="https://..." oninput="updateCardPreview()">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Texto debajo del QR</label>
+            <input type="text" id="inputQrCaption" class="form-input" value="Escanear WhatsApp" oninput="updateCardPreview()">
+          </div>
+        </div>
+
+        <!-- SECTION 3: Estilo & Color -->
+        <div id="section-style" class="editor-section">
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <label class="form-label">Acabado de Color Metálico</label>
+            <div class="theme-palette-grid">
+              <div class="theme-option active" onclick="setTheme('gold', this)">
+                <div class="theme-color-badge" style="background: linear-gradient(135deg, #f5e0aa, #c5a059, #8c6827);"></div>
+                <div class="theme-name">Oro Clásico</div>
+              </div>
+              <div class="theme-option" onclick="setTheme('rosegold', this)">
+                <div class="theme-color-badge" style="background: linear-gradient(135deg, #f7d1ba, #d48b71, #a35941);"></div>
+                <div class="theme-name">Oro Cobre</div>
+              </div>
+              <div class="theme-option" onclick="setTheme('silver', this)">
+                <div class="theme-color-badge" style="background: linear-gradient(135deg, #ffffff, #94a3b8, #475569);"></div>
+                <div class="theme-name">Plata Titanio</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <label class="form-label">Fondo de la Tarjeta</label>
+            <select id="selectCardBg" class="form-select" onchange="updateCardBackground(this.value)">
+              <option value="dark-radial">Negro Mate Terciopelo (Recomendado)</option>
+              <option value="dark-slate">Pizarra Arquitectónica Oscura</option>
+              <option value="solid-black">Negro Absoluto OLED</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Marco de Borde</label>
+            <select id="selectBorderFrame" class="form-select" onchange="toggleBorderFrame(this.value)">
+              <option value="yes">Con Filete Dorado Fino Interior (Lujo)</option>
+              <option value="no">Sin Borde Interior (Minimalista)</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-gold" style="width: 100%; justify-content: center; padding: 0.85rem;" onclick="saveCardData()">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <span>Guardar Cambios</span>
+        </button>
+
+      </div>
+    </aside>
+
+    <!-- RIGHT: Real-time Live Preview Stage -->
+    <main class="studio-preview-panel">
+      
+      <div class="preview-stage-header">
+        <h2>Vista Previa en Vivo de tu Tarjeta</h2>
+        <p>Cualquier cambio que escribas a la izquierda se refleja al instante aquí (Escala real 85 × 55 mm)</p>
+      </div>
+
+      <div class="cards-stage">
+
+        <!-- CARA 1 (FRONTAL) -->
+        <div class="card-box">
+          <div class="card-side-label">
+            <span>Cara 1 • Frontal (Marca & Elegancia)</span>
+          </div>
+          <div class="business-card card-front" id="cardFront">
+            <img id="cardFrontImg" src="assets/images/tarjeta-frontal-gold.jpg" alt="Goldenplac Cara Frontal Oficial" class="card-front-img">
+          </div>
+        </div>
+
+        <!-- CARA 2 (TRASERA) -->
+        <div class="card-box">
+          <div class="card-side-label">
+            <span>Cara 2 • Trasera (Contacto, QR & Servicios)</span>
+          </div>
+          <div class="business-card card-back" id="cardBack">
+            
+            <div class="back-header">
+              <div class="back-brand">
+                <span class="back-brand-name" id="prevBackBrand">GOLDENPLAC</span>
+                <span style="color: var(--gold-2);">•</span>
+                <span class="back-brand-tag" id="prevTagline">Reformas e Instalación</span>
+              </div>
+              <span style="font-size: 0.65rem; color: var(--gold-1); font-weight: 600;">Madrid</span>
+            </div>
+
+            <div class="back-body">
+              <div class="contact-list">
+                
+                <div class="contact-item">
+                  <div class="contact-icon-box">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/>
+                    </svg>
+                  </div>
+                  <div class="contact-text">
+                    <strong id="prevPhone">+34 634 28 34 51</strong>
+                  </div>
+                </div>
+
+                <div class="contact-item">
+                  <div class="contact-icon-box">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                      <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                  </div>
+                  <div class="contact-text">
+                    <span id="prevEmail">goldenplac85@gmail.com</span>
+                  </div>
+                </div>
+
+                <div class="contact-item">
+                  <div class="contact-icon-box">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                  </div>
+                  <div class="contact-text">
+                    <span id="prevWebsite" style="color: var(--gold-1); font-weight: 600;">www.goldenplac.es</span>
+                  </div>
+                </div>
+
+                <div class="contact-item">
+                  <div class="contact-icon-box">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                  </div>
+                  <div class="contact-text" style="font-size: 0.76rem; color: #cbd5e1;">
+                    <span id="prevAddress">C/ de Humera, 14 • Fuenlabrada</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Dynamic QR Column -->
+              <div class="qr-column">
+                <div class="qr-box" id="qrBox">
+                  <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://wa.me/34634283451?text=Hola%20Goldenplac,%20quisiera%20pedir%20presupuesto&color=070d18" alt="QR Code">
+                </div>
+                <span class="qr-caption" id="prevQrCaption">Escanear WhatsApp</span>
+              </div>
+            </div>
+
+            <div class="back-footer">
+              <div class="services-chips" id="prevServicesWrap">
+                <span>Techos LED</span>
+                <span class="dot">•</span>
+                <span>Tabiquería</span>
+                <span class="dot">•</span>
+                <span>Insonorización</span>
+                <span class="dot">•</span>
+                <span>Muebles TV</span>
+              </div>
+              <div class="guarantee-badge" id="prevGuarantee">Garantía por escrito</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="save-toast" id="saveToast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+    <span>¡Datos de la tarjeta guardados con éxito!</span>
+  </div>
+
+  <script src="js/store.js?v=3.1"></script>
+  <script>
+    const CARD_STORAGE_KEY = 'goldenplac_card_visit_settings';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.self !== window.top) {
+        const backBtn = document.getElementById('adminBackBtn');
+        if (backBtn) backBtn.style.display = 'none';
+      }
+      loadCardData();
+      updateCardPreview();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('autoprint') === '1') {
+        setTimeout(() => {
+          window.print();
+        }, 600);
+      }
+    });
+
+    function switchEditorTab(tabId, btn) {
+      document.querySelectorAll('.editor-tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) {
+        btn.classList.add('active');
+      } else if (window.event && window.event.currentTarget) {
+        window.event.currentTarget.classList.add('active');
+      }
+
+      document.querySelectorAll('.editor-section').forEach(sec => sec.classList.remove('active'));
+      const secMap = {
+        'tab-front': 'section-front',
+        'tab-general': 'section-general',
+        'tab-contact': 'section-contact',
+        'tab-style': 'section-style'
+      };
+      const targetSec = document.getElementById(secMap[tabId]);
+      if (targetSec) targetSec.classList.add('active');
+    }
+
+    /* FRONT IMAGE (CARA 1) MANIPULATION & RESIZING */
+    function changeFrontImageSrc(val) {
+      const img = document.getElementById('cardFrontImg');
+      if (img && val) {
+        img.src = val;
+      }
+    }
+
+    function handleFrontImageUpload(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const dataUrl = evt.target.result;
+        const img = document.getElementById('cardFrontImg');
+        if (img) img.src = dataUrl;
+        document.getElementById('inputFrontImgUrl').value = 'Foto personalizada (' + file.name + ')';
+        resetFrontImageSliders();
+        showToast('¡Foto cargada con éxito para la Cara 1!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function setPresetFrontImage(src) {
+      const img = document.getElementById('cardFrontImg');
+      if (img) img.src = src;
+      document.getElementById('inputFrontImgUrl').value = src;
+      resetFrontImageSliders();
+    }
+
+    function updateFrontImageTransform() {
+      const img = document.getElementById('cardFrontImg');
+      if (!img) return;
+
+      const scale = document.getElementById('sliderFrontScale').value;
+      const posX = document.getElementById('sliderFrontX').value;
+      const posY = document.getElementById('sliderFrontY').value;
+      const fit = document.getElementById('selectFrontFit').value;
+
+      document.getElementById('valFrontScale').textContent = scale + '%';
+      document.getElementById('valFrontX').textContent = posX + '%';
+      document.getElementById('valFrontY').textContent = posY + '%';
+
+      img.style.transform = `scale(${scale / 100})`;
+      img.style.objectPosition = `${posX}% ${posY}%`;
+      img.style.objectFit = fit;
+    }
+
+    function resetFrontImageSliders() {
+      document.getElementById('sliderFrontScale').value = 100;
+      document.getElementById('sliderFrontX').value = 50;
+      document.getElementById('sliderFrontY').value = 50;
+      document.getElementById('selectFrontFit').value = 'cover';
+      updateFrontImageTransform();
+    }
+
+    function updateCardPreview() {
+      const name = document.getElementById('inputBrandName').value.trim() || 'GOLDENPLAC';
+      const subtitle = document.getElementById('inputSubtitle').value.trim() || 'Especialistas en Pladur y Reformas';
+      const location = document.getElementById('inputLocation').value.trim() || 'Madrid • Toda la Comunidad';
+      const tagline = document.getElementById('inputTagline').value.trim() || 'Reformas e Instalación';
+      
+      const phone = document.getElementById('inputPhone').value.trim() || '+34 634 28 34 51';
+      const email = document.getElementById('inputEmail').value.trim() || 'goldenplac85@gmail.com';
+      const website = document.getElementById('inputWebsite').value.trim() || 'www.goldenplac.es';
+      const address = document.getElementById('inputAddress').value.trim() || 'C/ de Humera, 14 • Fuenlabrada';
+
+      const services = document.getElementById('inputServices').value.trim();
+      const guarantee = document.getElementById('inputGuarantee').value.trim() || 'Garantía por escrito';
+      const qrCaption = document.getElementById('inputQrCaption').value.trim() || 'Escanear WhatsApp';
+
+      // Update Front (si existen campos de texto en Cara 1)
+      const elBrand = document.getElementById('prevBrandName');
+      if (elBrand) elBrand.textContent = name;
+      const elSub = document.getElementById('prevSubtitle');
+      if (elSub) elSub.textContent = subtitle;
+      const elLoc = document.getElementById('prevLocation');
+      if (elLoc) elLoc.textContent = location;
+
+      // Update Back
+      document.getElementById('prevBackBrand').textContent = name;
+      document.getElementById('prevTagline').textContent = tagline;
+      document.getElementById('prevPhone').textContent = phone;
+      document.getElementById('prevEmail').textContent = email;
+      document.getElementById('prevWebsite').textContent = website;
+      document.getElementById('prevAddress').textContent = address;
+      document.getElementById('prevGuarantee').textContent = guarantee;
+      document.getElementById('prevQrCaption').textContent = qrCaption;
+
+      // Services chips
+      const servicesWrap = document.getElementById('prevServicesWrap');
+      if (servicesWrap) {
+        const parts = services.split('•').map(s => s.trim()).filter(Boolean);
+        servicesWrap.innerHTML = parts.map((part, idx) => `
+          <span>${escapeHTML(part)}</span>
+          ${idx < parts.length - 1 ? '<span class="dot">•</span>' : ''}
+        `).join('');
+      }
+
+      // Update QR destination
+      updateQrCode();
+    }
+
+    function updateQrDestination() {
+      const type = document.getElementById('selectQrType').value;
+      const customGroup = document.getElementById('groupCustomQrUrl');
+      if (type === 'custom') {
+        customGroup.style.display = 'flex';
+      } else {
+        customGroup.style.display = 'none';
+      }
+      updateQrCode();
+    }
+
+    function updateQrCode() {
+      const type = document.getElementById('selectQrType').value;
+      const phone = document.getElementById('inputPhone').value.replace(/[^0-9]/g, '') || '34634283451';
+      const website = document.getElementById('inputWebsite').value.trim() || 'https://www.goldenplac.es';
+      
+      let qrUrl = '';
+      if (type === 'whatsapp') {
+        qrUrl = `https://wa.me/${phone}?text=Hola%20Goldenplac,%20quisiera%20pedir%20presupuesto`;
+        document.getElementById('inputQrCaption').value = 'Escanear WhatsApp';
+      } else if (type === 'website') {
+        qrUrl = website.startsWith('http') ? website : `https://${website}`;
+        document.getElementById('inputQrCaption').value = 'Escanear Sitio Web';
+      } else {
+        qrUrl = document.getElementById('inputCustomQrUrl').value.trim() || website;
+      }
+
+      const qrImg = document.getElementById('qrImage');
+      if (qrImg) {
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(qrUrl)}&color=070d18`;
+      }
+      document.getElementById('prevQrCaption').textContent = document.getElementById('inputQrCaption').value;
+    }
+
+    function setTheme(theme, el) {
+      document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+      if (el) el.classList.add('active');
+
+      const front = document.getElementById('cardFront');
+      const back = document.getElementById('cardBack');
+      const root = document.documentElement;
+
+      if (theme === 'rosegold') {
+        root.style.setProperty('--gold-1', '#f7d1ba');
+        root.style.setProperty('--gold-2', '#d48b71');
+        root.style.setProperty('--gold-gradient', 'linear-gradient(135deg, #f7d1ba 0%, #d48b71 50%, #9c5039 100%)');
+        updateSvgGradient('#fff0e6', '#f7d1ba', '#d48b71', '#9c5039');
+      } else if (theme === 'silver') {
+        root.style.setProperty('--gold-1', '#ffffff');
+        root.style.setProperty('--gold-2', '#cbd5e1');
+        root.style.setProperty('--gold-gradient', 'linear-gradient(135deg, #ffffff 0%, #94a3b8 50%, #475569 100%)');
+        updateSvgGradient('#ffffff', '#e2e8f0', '#94a3b8', '#475569');
+      } else {
+        // Classic Gold
+        root.style.setProperty('--gold-1', '#dfba73');
+        root.style.setProperty('--gold-2', '#c5a059');
+        root.style.setProperty('--gold-gradient', 'linear-gradient(135deg, #f5e0aa 0%, #c5a059 50%, #8c6827 100%)');
+        updateSvgGradient('#fff0c4', '#dfba73', '#c5a059', '#8e6725');
+      }
+    }
+
+    function updateSvgGradient(c1, c2, c3, c4) {
+      const grad = document.getElementById('goldSheen');
+      if (grad && grad.children && grad.children.length >= 5) {
+        grad.children[0].setAttribute('stop-color', c1);
+        grad.children[1].setAttribute('stop-color', c2);
+        grad.children[2].setAttribute('stop-color', c3);
+        grad.children[3].setAttribute('stop-color', c4);
+        grad.children[4].setAttribute('stop-color', c2);
+      }
+      const darkGrad = document.getElementById('goldDark');
+      if (darkGrad && darkGrad.children && darkGrad.children.length >= 2) {
+        darkGrad.children[0].setAttribute('stop-color', c3);
+        darkGrad.children[1].setAttribute('stop-color', c4);
+      }
+    }
+
+    function updateCardBackground(val) {
+      const front = document.getElementById('cardFront');
+      const back = document.getElementById('cardBack');
+      let bgStyle = 'linear-gradient(145deg, #0b1424 0%, #050a13 100%)';
+
+      if (val === 'solid-black') {
+        bgStyle = '#050505';
+      } else if (val === 'dark-slate') {
+        bgStyle = 'linear-gradient(145deg, #152232 0%, #080c13 100%)';
+      }
+
+      if (front) front.style.background = bgStyle;
+      if (back) back.style.background = bgStyle;
+    }
+
+    function toggleBorderFrame(val) {
+      const styleTag = document.getElementById('dynamicBorderOverride') || document.createElement('style');
+      styleTag.id = 'dynamicBorderOverride';
+      if (val === 'no') {
+        styleTag.innerHTML = '.card-front::before, .card-back::before { display: none !important; }';
+      } else {
+        styleTag.innerHTML = '';
+      }
+      document.head.appendChild(styleTag);
+    }
+
+    function saveCardData() {
+      const data = {
+        frontImgSrc: document.getElementById('cardFrontImg') ? document.getElementById('cardFrontImg').src : '',
+        frontScale: document.getElementById('sliderFrontScale') ? document.getElementById('sliderFrontScale').value : '100',
+        frontPosX: document.getElementById('sliderFrontX') ? document.getElementById('sliderFrontX').value : '50',
+        frontPosY: document.getElementById('sliderFrontY') ? document.getElementById('sliderFrontY').value : '50',
+        frontFit: document.getElementById('selectFrontFit') ? document.getElementById('selectFrontFit').value : 'cover',
+        name: document.getElementById('inputBrandName').value,
+        subtitle: document.getElementById('inputSubtitle').value,
+        location: document.getElementById('inputLocation').value,
+        tagline: document.getElementById('inputTagline').value,
+        phone: document.getElementById('inputPhone').value,
+        email: document.getElementById('inputEmail').value,
+        website: document.getElementById('inputWebsite').value,
+        address: document.getElementById('inputAddress').value,
+        services: document.getElementById('inputServices').value,
+        guarantee: document.getElementById('inputGuarantee').value,
+        qrType: document.getElementById('selectQrType').value,
+        customQrUrl: document.getElementById('inputCustomQrUrl').value,
+        qrCaption: document.getElementById('inputQrCaption').value,
+        cardBg: document.getElementById('selectCardBg').value,
+        borderFrame: document.getElementById('selectBorderFrame').value
+      };
+
+      localStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(data));
+      showToast('¡Datos y medidas de la tarjeta guardados con éxito!');
+    }
+
+    function loadCardData() {
+      try {
+        const stored = localStorage.getItem(CARD_STORAGE_KEY);
+        if (stored) {
+          const d = JSON.parse(stored);
+          if (d.frontImgSrc) {
+            const frontImg = document.getElementById('cardFrontImg');
+            if (frontImg) frontImg.src = d.frontImgSrc;
+            const urlInp = document.getElementById('inputFrontImgUrl');
+            if (urlInp) urlInp.value = d.frontImgSrc.startsWith('data:') ? 'Foto personalizada cargada' : d.frontImgSrc;
+          }
+          if (d.frontScale && document.getElementById('sliderFrontScale')) document.getElementById('sliderFrontScale').value = d.frontScale;
+          if (d.frontPosX && document.getElementById('sliderFrontX')) document.getElementById('sliderFrontX').value = d.frontPosX;
+          if (d.frontPosY && document.getElementById('sliderFrontY')) document.getElementById('sliderFrontY').value = d.frontPosY;
+          if (d.frontFit && document.getElementById('selectFrontFit')) document.getElementById('selectFrontFit').value = d.frontFit;
+          updateFrontImageTransform();
+
+          if (d.name) document.getElementById('inputBrandName').value = d.name;
+          if (d.subtitle) document.getElementById('inputSubtitle').value = d.subtitle;
+          if (d.location) document.getElementById('inputLocation').value = d.location;
+          if (d.tagline) document.getElementById('inputTagline').value = d.tagline;
+          if (d.phone) document.getElementById('inputPhone').value = d.phone;
+          if (d.email) document.getElementById('inputEmail').value = d.email;
+          if (d.website) document.getElementById('inputWebsite').value = d.website;
+          if (d.address) document.getElementById('inputAddress').value = d.address;
+          if (d.services) document.getElementById('inputServices').value = d.services;
+          if (d.guarantee) document.getElementById('inputGuarantee').value = d.guarantee;
+          if (d.qrType) {
+            document.getElementById('selectQrType').value = d.qrType;
+            updateQrDestination();
+          }
+          if (d.customQrUrl) document.getElementById('inputCustomQrUrl').value = d.customQrUrl;
+          if (d.qrCaption) document.getElementById('inputQrCaption').value = d.qrCaption;
+          if (d.cardBg) {
+            document.getElementById('selectCardBg').value = d.cardBg;
+            updateCardBackground(d.cardBg);
+          }
+          if (d.borderFrame) {
+            document.getElementById('selectBorderFrame').value = d.borderFrame;
+            toggleBorderFrame(d.borderFrame);
+          }
+          return;
+        }
+
+        // Si no hay datos específicos de tarjeta, cargar datos oficiales desde GoldenStore
+        if (window.GoldenStore) {
+          const company = window.GoldenStore.getCompany();
+          if (company) {
+            document.getElementById('inputBrandName').value = company.name || 'GOLDENPLAC';
+            document.getElementById('inputPhone').value = company.phone || '+34 634 28 34 51';
+            document.getElementById('inputEmail').value = company.email || 'goldenplac85@gmail.com';
+            document.getElementById('inputAddress').value = company.address || 'C/ de Humera, 14 • Fuenlabrada';
+          }
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+
+    function resetToDefaults() {
+      if (confirm('¿Restablecer el diseño y datos de la tarjeta a los valores iniciales de Goldenplac?')) {
+        localStorage.removeItem(CARD_STORAGE_KEY);
+        location.reload();
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('saveToast');
+      if (msg && toast.querySelector('span')) toast.querySelector('span').textContent = msg;
+      toast.classList.add('active');
+      setTimeout(() => {
+        toast.classList.remove('active');
+      }, 3000);
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

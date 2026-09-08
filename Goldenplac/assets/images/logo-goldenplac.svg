@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 280" width="100%" height="100%">
+  <defs>
+    <!-- Gold Metallic Gradients -->
+    <linearGradient id="goldRoofGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fae7b9" />
+      <stop offset="25%" stop-color="#dfba73" />
+      <stop offset="50%" stop-color="#c5a059" />
+      <stop offset="75%" stop-color="#e8cf90" />
+      <stop offset="100%" stop-color="#9e7935" />
+    </linearGradient>
+
+    <linearGradient id="goldLightGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fff0cc" />
+      <stop offset="50%" stop-color="#dfba73" />
+      <stop offset="100%" stop-color="#aa8238" />
+    </linearGradient>
+
+    <linearGradient id="goldDarkGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8a6322" />
+      <stop offset="50%" stop-color="#c5a059" />
+      <stop offset="100%" stop-color="#dfba73" />
+    </linearGradient>
+
+    <filter id="goldGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <g filter="url(#goldGlow)">
+    <!-- BACK CENTER HOUSE (Top Apex) -->
+    <!-- Roof outline -->
+    <path d="M 225 36 L 250 14 L 305 60 L 290 60 L 250 28 L 225 48 Z" fill="url(#goldRoofGrad)" />
+    <!-- Roof left slope facet -->
+    <path d="M 250 28 L 285 58 L 245 92 L 210 62 Z" fill="url(#goldDarkGrad)" opacity="0.9" />
+    <!-- Window back center (4 panes) -->
+    <rect x="240" y="44" width="9" height="9" fill="url(#goldLightGrad)" rx="0.5" />
+    <rect x="252" y="44" width="9" height="9" fill="url(#goldLightGrad)" rx="0.5" />
+    <rect x="240" y="56" width="9" height="9" fill="url(#goldLightGrad)" rx="0.5" />
+    <rect x="252" y="56" width="9" height="9" fill="url(#goldLightGrad)" rx="0.5" />
+
+    <!-- BACK RIGHT HOUSE -->
+    <path d="M 305 60 L 328 42 L 362 70 L 348 70 L 328 53 L 305 71 Z" fill="url(#goldRoofGrad)" />
+    <!-- Window back right (4 panes) -->
+    <rect x="323" y="62" width="6" height="6" fill="url(#goldLightGrad)" rx="0.5" />
+    <rect x="331" y="62" width="6" height="6" fill="url(#goldLightGrad)" rx="0.5" />
+    <rect x="323" y="70" width="6" height="6" fill="url(#goldLightGrad)" rx="0.5" />
+    <rect x="331" y="70" width="6" height="6" fill="url(#goldLightGrad)" rx="0.5" />
+
+    <!-- FOREGROUND LEFT HOUSE -->
+    <!-- Chimney Left -->
+    <rect x="145" y="92" width="13" height="40" fill="url(#goldRoofGrad)" />
+    <!-- Left Main Roof -->
+    <path d="M 68 142 L 152 76 L 240 144 L 226 144 L 152 86 L 82 142 Z" fill="url(#goldRoofGrad)" />
+    <!-- Roof Face/Facet Left -->
+    <path d="M 152 86 L 226 144 L 204 158 L 130 100 Z" fill="url(#goldDarkGrad)" opacity="0.85" />
+    <!-- Base wing extension left -->
+    <path d="M 15 142 Q 50 140 82 142 L 82 147 Q 50 145 15 142 Z" fill="url(#goldRoofGrad)" />
+    <path d="M 15 142 L 82 147 L 82 142 Z" fill="url(#goldRoofGrad)" />
+    <polygon points="15,142 82,142 82,146" fill="url(#goldRoofGrad)" />
+    <rect x="82" y="125" width="6" height="21" fill="url(#goldRoofGrad)" />
+    <!-- Window Left House (4 panes) -->
+    <rect x="135" y="112" width="13" height="13" fill="url(#goldLightGrad)" rx="1" />
+    <rect x="152" y="112" width="13" height="13" fill="url(#goldLightGrad)" rx="1" />
+    <rect x="135" y="129" width="13" height="13" fill="url(#goldLightGrad)" rx="1" />
+    <rect x="152" y="129" width="13" height="13" fill="url(#goldLightGrad)" rx="1" />
+
+    <!-- FOREGROUND RIGHT HOUSE -->
+    <!-- Chimney Right -->
+    <rect x="342" y="92" width="13" height="40" fill="url(#goldRoofGrad)" />
+    <!-- Right Main Roof -->
+    <path d="M 226 144 L 348 76 L 432 142 L 418 142 L 348 86 L 240 144 Z" fill="url(#goldRoofGrad)" />
+    <!-- Roof Face/Facet Right -->
+    <path d="M 226 144 L 298 100 L 348 86 L 276 130 Z" fill="url(#goldLightGrad)" opacity="0.75" />
+    <!-- Base wing extension right -->
+    <polygon points="485,142 418,142 418,146" fill="url(#goldRoofGrad)" />
+    <rect x="412" y="125" width="6" height="21" fill="url(#goldRoofGrad)" />
+    <!-- Window Right House (4 panes) -->
+    <rect x="335" y="112" width="13" height="13" fill="url(#goldLightGrad)" rx="1" />
+    <rect x="352" y="112" width="13" height="13" fill="url(#goldLightGrad)" rx="1" />
+    <rect x="335" y="129" width="13" height="13" fill="url(#goldLightGrad)" rx="1" />
+    <rect x="352" y="129" width="13" height="13" fill="url(#goldLightGrad)" rx="1" />
+
+    <!-- Center overlapping diagonal slab -->
+    <polygon points="226,144 260,118 310,154 276,180" fill="url(#goldRoofGrad)" />
+  </g>
+
+  <!-- TYPOGRAPHY: GOLDENPLAC -->
+  <text x="250" y="210" text-anchor="middle" font-family="'Outfit', 'Trajan Pro', 'Cinzel', 'Playfair Display', serif" font-size="52" font-weight="800" letter-spacing="4" fill="url(#goldRoofGrad)" filter="url(#goldGlow)">
+    GOLDENPLAC
+  </text>
+
+  <!-- SUBTITLE: ESPECIALISTAS EN PLADUR Y REFORMAS -->
+  <text x="250" y="240" text-anchor="middle" font-family="'Inter', 'Montserrat', sans-serif" font-size="16" font-weight="500" letter-spacing="3" fill="#dfba73" opacity="0.95">
+    ESPECIALISTAS EN PLADUR Y REFORMAS
+  </text>
+
+  <!-- LOCATION: MADRID -->
+  <text x="250" y="270" text-anchor="middle" font-family="'Inter', 'Montserrat', sans-serif" font-size="14" font-weight="600" letter-spacing="5" fill="#c5a059">
+    MADRID
+  </text>
+</svg>

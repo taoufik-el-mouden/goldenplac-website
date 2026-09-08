@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Goldenplac SL | Pladur y Reformas Integrales en Madrid | Presupuesto Gratis</title>
+  <meta name="description" content="Goldenplac SL: especialistas en tabiques de pladur, falsos techos foseados con luz indirecta LED, insonorización y reformas integrales en Madrid y Fuenlabrada. Presupuesto gratis en 24h.">
+  <meta name="keywords" content="pladur Madrid, reformas integrales Madrid, falsos techos pladur, foseado led pladur, tabiques pladur Fuenlabrada, insonorizacion acustica Madrid, muebles pladur tv">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Goldenplac SL | Pladur y Reformas en Madrid">
+  <meta property="og:description" content="Especialistas en pladur, techos con luz LED foseada, aislamiento acústico y reformas completas en Madrid.">
+  <meta property="og:image" content="assets/images/hero-bg.jpg">
+  <link rel="icon" type="image/png" href="assets/images/logo-goldenplac.png">
+  
+  <link rel="stylesheet" href="css/main.css?v=3.3">
+  <link rel="stylesheet" href="css/components.css?v=3.3">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-info">
+        <a href="https://www.google.com/maps/place/Goldenplac/@40.2854359,-3.798811,16z/data=!4m6!3m5!1s0xd418b006727ba15:0x4c9851d81ee05896!8m2!3d40.2860375!4d-3.7960108!16s%2Fg%2F11z3y9ngcg?entry=ttu" target="_blank" rel="noopener" class="top-info-item" id="top-address-link" title="Ver ubicación de Goldenplac en Google Maps">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span id="top-address">Calle de Humera, 14, 28945 Fuenlabrada, Madrid</span>
+        </a>
+        <div class="top-info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span id="top-schedule">Lun-Vie: 08:00 - 19:00 | Sáb: 09:00 - 14:00</span>
+        </div>
+      </div>
+      <div class="top-info">
+        <a href="tel:+34634283451" class="top-info-item" id="top-phone-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          <span id="top-phone">+34 634 28 34 51</span>
+        </a>
+        <a href="admin.html" class="admin-link-pill" title="Panel de Administración">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Admin</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="#inicio" class="logo-brand" title="Goldenplac SL | Pladur y Reformas Madrid">
+          <img src="assets/images/logo-goldenplac.png" alt="Goldenplac - Pladur y Reformas Madrid" class="site-header-logo" height="50" style="height: 50px; max-height: 50px; width: auto; max-width: 140px; object-fit: contain; display: block;">
+        </a>
+
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+          <li><a href="#servicios" class="nav-link">Servicios</a></li>
+          <li><a href="#calculadora" class="nav-link">Calculadora</a></li>
+          <li><a href="#comparador" class="nav-link">Antes / Después</a></li>
+          <li><a href="#proyectos" class="nav-link">Proyectos</a></li>
+          <li><a href="#testimonios" class="nav-link">Opiniones</a></li>
+          <li><a href="#cobertura" class="nav-link">Zonas</a></li>
+          <li><a href="#tarjeta" class="nav-link" style="color: var(--gold-400); font-weight: 600;">Tarjeta</a></li>
+          <li class="mobile-only-cta">
+            <button class="btn btn-gold" style="width: 100%; justify-content: center; margin-top: 1rem;" onclick="openQuoteModal()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12a7.9 7.9 0 0 0 7.8 8 7.7 7.7 0 0 0 5.2-2"></path><path d="M4 10h12"></path><path d="M4 14h12"></path></svg>
+              <span>Pedir Presupuesto Gratis</span>
+            </button>
+          </li>
+          <li class="mobile-only-cta">
+            <a href="https://wa.me/34634283451?text=Hola%20Goldenplac,%20quisiera%20pedir%20presupuesto" target="_blank" class="btn btn-whatsapp" style="width: 100%; justify-content: center; margin-top: 0.6rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/></svg>
+              <span>WhatsApp Directo</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="btn btn-gold btn-nav-quote" onclick="openQuoteModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12a7.9 7.9 0 0 0 7.8 8 7.7 7.7 0 0 0 5.2-2"></path><path d="M4 10h12"></path><path d="M4 14h12"></path></svg>
+            <span>Pedir Presupuesto</span>
+          </button>
+          <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Menú">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg-media">
+      <img src="assets/images/hero-bg.jpg" alt="Reformas y Techos de Pladur en Madrid - Goldenplac">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badges-row">
+          <div class="badge-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span id="hero-badge">Líderes en Pladur en la Comunidad de Madrid</span>
+          </div>
+          <a href="https://www.google.com/maps/place/Goldenplac/@40.2854359,-3.798811,16z/data=!4m6!3m5!1s0xd418b006727ba15:0x4c9851d81ee05896!8m2!3d40.2860375!4d-3.7960108!16s%2Fg%2F11z3y9ngcg?entry=ttu" target="_blank" rel="noopener noreferrer" class="hero-google-pill" title="Ver opiniones en Google">
+            <svg class="google-icon-svg" viewBox="0 0 24 24" width="16" height="16">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span class="gr-stars-gold">★★★★★</span>
+            <span class="gr-rating-num">4.9/5</span>
+            <span class="gr-rating-label">Google Reviews</span>
+          </a>
+        </div>
+        <h1 class="hero-title" id="hero-title">Tabiques, Techos de Pladur y Reformas con Acabado de Lujo</h1>
+        <p class="hero-subtitle" id="hero-subtitle">
+          Diseñamos y ejecutamos falsos techos con foseados de luz indirecta LED, tabiquería insonorizada, muebles a medida y reformas llave en mano con presupuesto gratis en 24h.
+        </p>
+
+        <div class="hero-cta-group">
+          <button class="btn btn-gold" onclick="openQuoteModal()">
+            <span>Solicitar Presupuesto Gratis</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+          <a href="https://wa.me/34634283451?text=Hola%20Goldenplac,%20quisiera%20solicitar%20presupuesto%20para%20un%20trabajo%20de%20pladur" target="_blank" class="btn btn-whatsapp" id="hero-whatsapp-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/></svg>
+            <span>Contactar por WhatsApp</span>
+          </a>
+        </div>
+
+        <ul class="trust-pills-list" id="trustBadgesList">
+          <!-- Loaded dynamically from GoldenStore -->
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Strip -->
+  <section class="stats-strip">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-number">+850</span>
+          <span class="stat-label">Obras y Reformas en Madrid</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">24h</span>
+          <span class="stat-label">Presupuesto Rápido Garantizado</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Material Homologado Pladur / Knauf</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">4.9/5</span>
+          <span class="stat-label">Satisfacción de Clientes Verificados</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios Section -->
+  <section class="section section-dark" id="servicios">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Nuestras Especialidades</span>
+        <h2 class="section-title">Soluciones Profesionales en Pladur</h2>
+        <p class="section-lead">
+          Desde tabiquería interior hasta foseados perimetrales con iluminación indirecta y reformas completas en toda la Comunidad de Madrid.
+        </p>
+      </div>
+
+      <div class="services-grid" id="servicesGrid">
+        <!-- Rendered dynamically from GoldenStore -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Budget Calculator -->
+  <section class="section section-dark" id="calculadora" style="background: #040814;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Estimación Inmediata</span>
+        <h2 class="section-title">Calculadora de Presupuesto Estimativo</h2>
+        <p class="section-lead">
+          Selecciona el tipo de trabajo, ajusta los metros cuadrados (m²) y obtén una estimación al instante con opción de enviárnosla por WhatsApp.
+        </p>
+      </div>
+
+      <div class="calculator-card">
+        <div class="calc-grid">
+          <div class="calc-controls">
+            <div class="calc-group">
+              <label class="calc-label" for="calcService">Tipo de Trabajo de Pladur o Reforma</label>
+              <select id="calcService" class="calc-select" onchange="updateCalculator()">
+                <option value="techos-led">Falsos Techos Continuos o Foseados con Luz LED</option>
+                <option value="tabiques">Tabiques y Trasdosados Divisorios</option>
+                <option value="muebles">Muebles de Pladur a Medida y Paredes de TV</option>
+                <option value="aislamiento">Insonorización Acústica y Térmica</option>
+                <option value="reforma">Reforma Integral Llave en Mano</option>
+              </select>
+            </div>
+
+            <div class="calc-group">
+              <div class="calc-label">
+                <span>Superficie Estimada</span>
+                <strong id="calcM2Display" style="color: var(--gold-400);">35 m²</strong>
+              </div>
+              <div class="range-slider-wrap">
+                <input type="range" id="calcM2Range" class="range-input" min="10" max="250" value="35" step="5" oninput="updateCalculator()">
+              </div>
+            </div>
+
+            <div class="calc-group">
+              <label class="calc-label">Opciones y Mejoras Extras</label>
+              <div class="calc-options-grid">
+                <label class="calc-checkbox-pill">
+                  <input type="checkbox" id="calcAislante" onchange="updateCalculator()" checked>
+                  <span>Aislamiento Lana de Roca</span>
+                </label>
+                <label class="calc-checkbox-pill">
+                  <input type="checkbox" id="calcLed" onchange="updateCalculator()" checked>
+                  <span>Tira LED Indirecta Integrada</span>
+                </label>
+                <label class="calc-checkbox-pill">
+                  <input type="checkbox" id="calcPintura" onchange="updateCalculator()">
+                  <span>Pintura Lisa Plástica Final</span>
+                </label>
+                <label class="calc-checkbox-pill">
+                  <input type="checkbox" id="calcEscombros" onchange="updateCalculator()" checked>
+                  <span>Retirada y Limpieza de Obra</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-result-box">
+            <span class="calc-result-header">Presupuesto Estimado</span>
+            <div class="calc-price-display" id="calcPriceResult">
+              1.450 € <span>aprox.</span>
+            </div>
+            <p class="calc-disclaimer">
+              * Estimación orientativa con materiales incluidos. Visita técnica y medición sin coste en Madrid.
+            </p>
+
+            <div class="calc-breakdown">
+              <div class="calc-breakdown-row">
+                <span>Superficie calculada:</span>
+                <strong id="calcBreakdownM2">35 m²</strong>
+              </div>
+              <div class="calc-breakdown-row">
+                <span>Tiempo de ejecución estimado:</span>
+                <strong id="calcBreakdownTime">2 - 3 días</strong>
+              </div>
+              <div class="calc-breakdown-row">
+                <span>Visita y presupuesto:</span>
+                <strong style="color: #10B981;">100% Gratis</strong>
+              </div>
+            </div>
+
+            <button class="btn btn-gold" style="width: 100%; margin-bottom: 0.8rem;" onclick="sendCalculatedQuote()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              <span>Pedir Visita para este Presupuesto</span>
+            </button>
+            <button class="btn btn-whatsapp" style="width: 100%;" onclick="sendCalculatedQuoteWhatsApp()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/></svg>
+              <span>Enviar a WhatsApp Directo</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Before & After Comparator -->
+  <section class="section section-dark" id="comparador">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Resultados Reales</span>
+        <h2 class="section-title">Comparador Interactivo Antes y Después</h2>
+        <p class="section-lead">
+          Desliza la barra central para comprobar la transformación que logramos con la instalación de pladur de precisión y acabados de primera calidad.
+        </p>
+      </div>
+
+      <!-- Comparison Project Tabs -->
+      <div class="ba-project-tabs" id="baProjectTabs" role="tablist" aria-label="Proyectos antes y después">
+        <button type="button" class="ba-tab-btn active" role="tab" aria-selected="true" data-before="img/previo-falso-techo-hormigon.CvLVcDmd_2gnMT1.webp" data-after="assets/images/techos-led.jpg" data-caption="Falso techo suspendido de pladur con candileja perimetral de luz indirecta LED cálida en Madrid (Antes: Forjado de hormigón en bruto vs. Después: Acabado continuo de lujo).">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <span>Techos & Iluminación LED</span>
+        </button>
+        <button type="button" class="ba-tab-btn" role="tab" aria-selected="false" data-before="img/falso-techo-cinta-tornillos.DPfMgenv_ZVcPa4.webp" data-after="img/reforma-local-diafano.DCvA8NBa_Z2qjvaE.webp" data-caption="Reforma integral de local en Madrid: Fase de placas, juntas con cinta y tornillería vs. Local diáfano terminado con techo liso y pavimento.">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 7v14M21 7v14M6 7V3h12v4M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/></svg>
+          <span>Reforma de Local Comercial</span>
+        </button>
+        <button type="button" class="ba-tab-btn" role="tab" aria-selected="false" data-before="img/perfileria-tabique-estructura.DlthMHk-_1GGuHp.webp" data-after="assets/images/hero-bg.jpg" data-caption="Tabiquería y techos de pladur: Estructura de perfiles de acero galvanizado vs. Salón terminado con foseados y molduras de alta gama.">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          <span>Estructura & Tabiquería</span>
+        </button>
+      </div>
+
+      <div class="comparison-section">
+        <div class="ba-slider-container" id="baContainer">
+          <!-- Before Image Layer -->
+          <div class="ba-image-layer ba-image-before">
+            <img src="img/previo-falso-techo-hormigon.CvLVcDmd_2gnMT1.webp" alt="Antes de la reforma - Obra en bruto" id="baBeforeImg" loading="lazy" decoding="async">
+          </div>
+
+          <!-- After Image Layer -->
+          <div class="ba-image-layer ba-image-after" id="baAfterLayer">
+            <img src="assets/images/techos-led.jpg" alt="Después con falso techo de pladur y luz LED" id="baAfterImg" loading="lazy" decoding="async">
+          </div>
+
+          <!-- Floating Badges (Outside clipped layer so neither badge gets cut off) -->
+          <span class="ba-badge ba-badge-before" aria-hidden="true">
+            <span class="ba-badge-dot dot-before"></span>
+            Antes
+          </span>
+          <span class="ba-badge ba-badge-after" aria-hidden="true">
+            <span class="ba-badge-dot dot-after"></span>
+            Después (Goldenplac)
+          </span>
+
+          <!-- Divider Line -->
+          <div class="ba-divider-line" id="baDivider"></div>
+
+          <!-- Handle -->
+          <div class="ba-handle" id="baHandle" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label="Control deslizante antes y después" tabindex="0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline><polyline points="9 18 3 12 9 6"></polyline></svg>
+          </div>
+
+          <!-- Hidden Input Control for Accessibility -->
+          <input type="range" min="0" max="100" value="50" class="ba-range-control" id="baRange" aria-label="Comparar antes y después">
+        </div>
+
+        <!-- Comparator Footer: Caption + Quick Actions -->
+        <div class="ba-controls-footer">
+          <p class="ba-caption" id="baCaption">
+            Falso techo suspendido de pladur con candileja perimetral de luz indirecta LED cálida en Madrid (Antes: Forjado de hormigón en bruto vs. Después: Acabado continuo de lujo).
+          </p>
+          <div class="ba-quick-actions" role="group" aria-label="Posiciones rápidas del comparador">
+            <button type="button" class="ba-quick-btn" data-val="0">Ver Antes (100%)</button>
+            <button type="button" class="ba-quick-btn active" data-val="50">50 / 50</button>
+            <button type="button" class="ba-quick-btn" data-val="100">Ver Después (100%)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galería de Proyectos -->
+  <section class="section section-dark" id="proyectos" style="background: #02050c;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Portfolio de Obras</span>
+        <h2 class="section-title">Trabajos Recientes en Madrid</h2>
+        <p class="section-lead">
+          Explora nuestros proyectos ejecutados en pisos, chalets y locales comerciales con las máximas garantías.
+        </p>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="gallery-filters" id="galleryFilters">
+        <button class="filter-btn active" data-filter="all">Todos los Trabajos</button>
+        <button class="filter-btn" data-filter="Techos">Techos y LED</button>
+        <button class="filter-btn" data-filter="Tabiques">Tabiquería</button>
+        <button class="filter-btn" data-filter="Muebles">Muebles Pladur</button>
+        <button class="filter-btn" data-filter="Reformas">Reformas Integrales</button>
+        <button class="filter-btn" data-filter="Aislamiento">Insonorización</button>
+      </div>
+
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Rendered dynamically from GoldenStore -->
+      </div>
+
+      <!-- Load More Button (مشاهدة المزيد) -->
+      <div class="gallery-load-more-wrap" id="galleryLoadMoreWrap">
+        <button class="btn btn-load-more" id="galleryLoadMoreBtn" onclick="toggleLoadMoreProjects()">
+          <span id="loadMoreText">Ver más trabajos</span>
+          <svg id="loadMoreIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonios Section -->
+  <section class="section section-dark" id="testimonios">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Opiniones de Clientes</span>
+        <h2 class="section-title">La Confianza de Nuestros Clientes</h2>
+        <p class="section-lead">
+          Opiniones reales de propietarios en Madrid que han confiado en nuestro equipo para sus reformas y trabajos de pladur.
+        </p>
+      </div>
+
+      <!-- Google Reviews Official Badge & Actions Banner -->
+      <div class="google-reviews-badge-banner">
+        <div class="gr-banner-left">
+          <div class="gr-brand-icon">
+            <svg viewBox="0 0 24 24" width="34" height="34">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+          </div>
+          <div class="gr-brand-info">
+            <div class="gr-title-wrap">
+              <h3 class="gr-title">Excelente en Google</h3>
+              <span class="gr-verified-tag">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Ficha Verificada
+              </span>
+            </div>
+            <div class="gr-score-line">
+              <span class="gr-score-number">4.9</span>
+              <div class="gr-stars-gold">★★★★★</div>
+              <span class="gr-reviews-text">Opiniones 100% reales en Google Maps</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="gr-banner-actions">
+          <a href="https://www.google.com/maps/place/Goldenplac/@40.2854359,-3.798811,16z/data=!4m6!3m5!1s0xd418b006727ba15:0x4c9851d81ee05896!8m2!3d40.2860375!4d-3.7960108!16s%2Fg%2F11z3y9ngcg?entry=ttu" target="_blank" rel="noopener noreferrer" class="btn-gr-action btn-gr-view">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span>Ver Ficha en Google</span>
+          </a>
+          <a href="https://www.google.com/maps/place/Goldenplac/@40.2854359,-3.798811,16z/data=!4m6!3m5!1s0xd418b006727ba15:0x4c9851d81ee05896!8m2!3d40.2860375!4d-3.7960108!16s%2Fg%2F11z3y9ngcg?entry=ttu" target="_blank" rel="noopener noreferrer" class="btn-gr-action btn-gr-write">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            <span>Dejar una Opinión</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="testimonials-grid" id="testimonialsGrid">
+        <!-- Rendered dynamically from GoldenStore -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Madrid Cobertura Section -->
+  <section class="section section-dark" id="zonas-madrid" style="background: #040814;">
+    <div class="container">
+      <div class="madrid-coverage-wrap">
+        <div class="coverage-header">
+          <span class="section-tag">Área de Trabajo</span>
+          <h2 class="section-title">Trabajamos en Toda la Comunidad de Madrid</h2>
+          <p class="section-lead" style="max-width: 600px; margin: 0 auto;">
+            Sede central en Fuenlabrada con equipos de pladuristas profesionales desplazándose a diario por toda la región sin recargo por desplazamiento para presupuesto.
+          </p>
+        </div>
+
+        <div class="coverage-pills">
+          <span class="coverage-pill highlight">Fuenlabrada (Sede Central)</span>
+          <span class="coverage-pill">Madrid Capital (Chamberí, Salamanca, Retiro)</span>
+          <span class="coverage-pill">Getafe</span>
+          <span class="coverage-pill">Leganés</span>
+          <span class="coverage-pill">Alcorcón</span>
+          <span class="coverage-pill">Móstoles</span>
+          <span class="coverage-pill">Pozuelo de Alarcón</span>
+          <span class="coverage-pill">Las Rozas</span>
+          <span class="coverage-pill">Majadahonda</span>
+          <span class="coverage-pill">Alcobendas y San Sebastián de los Reyes</span>
+          <span class="coverage-pill">Boadilla del Monte</span>
+          <span class="coverage-pill">Pinto y Valdemoro</span>
+          <span class="coverage-pill">Alcalá de Henares y Torrejón</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section section-dark" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Preguntas Frecuentes</span>
+        <h2 class="section-title">Resolvemos tus Dudas</h2>
+        <p class="section-lead">Todo lo que necesitas saber antes de contratar tu obra con pladur.</p>
+      </div>
+
+      <div class="faq-wrap">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Cuánto tarda la visita y la entrega del presupuesto?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-answer">
+            Contactamos contigo en menos de 2 horas. Concertamos la visita técnica presencial en Madrid según tu disponibilidad y te enviamos el presupuesto detallado por escrito en menos de 24 horas laborables. Todo el proceso previo es 100% gratuito y sin compromiso.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Qué marcas y tipos de placas de pladur utilizáis?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-answer">
+            Trabajamos exclusivamente con fabricantes certificados líderes como Pladur®, Knauf y Placo Saint-Gobain. Utilizamos placas estándar para tabiques, hidrófugas (verdes) antihumedad para baños y cocinas, fonoabsorbentes/acústicas para insonorización e ignífugas (rosas) para protección contra incendios.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Es resistente un tabique o un mueble de pladur para colgar cosas pesadas?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-answer">
+            Absolutamente sí. Realizamos refuerzos de madera o chapa de acero galvanizado en la estructura interna en los puntos donde se colgarán televisores de gran formato, muebles de cocina o sanitarios suspendidos, garantizando una resistencia de carga superior a 50kg por punto.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Tenéis garantía por escrito de los trabajos?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-answer">
+            Sí. Como empresa legalmente constituida (Goldenplac SL - CIF B21844873), todas nuestras obras cuentan con contrato detallado, factura oficial y garantía por escrito según normativa vigente, con seguro de responsabilidad civil para tu máxima tranquilidad.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ubicación & Cobertura Google Maps Section -->
+  <section class="section section-dark" id="cobertura" style="background: #02050c; border-top: 1px solid var(--border-dark);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Ubicación Oficial</span>
+        <h2 class="section-title">Dónde Encontrarnos y Zonas de Trabajo</h2>
+        <p class="section-lead">
+          Con sede en Fuenlabrada, prestamos servicio en toda la Comunidad de Madrid con visita técnica y presupuesto gratuito en 24h.
+        </p>
+      </div>
+
+      <div class="location-map-grid">
+        <!-- Google Maps Interactive Embed (Click to Open Location directly) -->
+        <div class="map-embed-card">
+          <iframe 
+            src="https://maps.google.com/maps?q=40.2860375,-3.7960108&hl=es&z=16&output=embed" 
+            width="100%" 
+            height="100%" 
+            style="border:0; width: 100%; display: block;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Ubicación oficial de Goldenplac en Google Maps">
+          </iframe>
+          <a href="https://www.google.com/maps/place/Goldenplac/@40.2854359,-3.798811,16z/data=!4m6!3m5!1s0xd418b006727ba15:0x4c9851d81ee05896!8m2!3d40.2860375!4d-3.7960108!16s%2Fg%2F11z3y9ngcg?entry=ttu" target="_blank" rel="noopener noreferrer" class="map-click-overlay" id="mapClickOverlay" title="Abrir ubicación en Google Maps">
+            <div class="map-overlay-badge">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <span>Abrir en Google Maps</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- Google Business Location Details Card -->
+        <div class="map-info-card">
+          <div class="map-badge-verified">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#4285F4"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span>Ficha Oficial en Google Maps</span>
+          </div>
+
+          <h3 class="map-company-name" style="color: #ffffff; font-size: 1.35rem; margin-bottom: 0.5rem;">Goldenplac SL</h3>
+          <p class="map-company-desc" style="color: var(--text-on-dark-muted); font-size: 0.9rem; margin-bottom: 1.3rem; line-height: 1.5;">
+            Especialistas en pladur, foseados con luz indirecta LED, tabiquería y reformas integrales de alta gama en Madrid.
+          </p>
+
+          <div class="map-details-list">
+            <div class="map-detail-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <div>
+                <strong>Dirección:</strong>
+                <span>Calle de Humera, 14, 28945 Fuenlabrada, Madrid</span>
+              </div>
+            </div>
+
+            <div class="map-detail-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <div>
+                <strong>Horario de Atención:</strong>
+                <span>Lunes a Viernes: 08:00 - 19:00 | Sábados: 09:00 - 14:00</span>
+              </div>
+            </div>
+
+            <div class="map-detail-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+              <div>
+                <strong>Zonas de Cobertura:</strong>
+                <span>Fuenlabrada, Leganés, Getafe, Móstoles, Alcorcón, Madrid Capital, Pozuelo, Majadahonda, Las Rozas y toda la Comunidad.</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="https://www.google.com/maps/place/Goldenplac/@40.2854359,-3.798811,16z/data=!4m6!3m5!1s0xd418b006727ba15:0x4c9851d81ee05896!8m2!3d40.2860375!4d-3.7960108!16s%2Fg%2F11z3y9ngcg?entry=ttu" target="_blank" rel="noopener" class="btn btn-gold btn-map-directions" style="width: 100%; justify-content: center; margin-top: 1.4rem; text-decoration: none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <span>Cómo Llegar en Google Maps</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tarjeta de Visita Digital Section -->
+  <section class="section digital-card-section" id="tarjeta">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="badge badge-gold mb-2">IDENTIDAD CORPORATIVA &bull; CONTACTO DIRECTO</div>
+        <h2 class="section-title">Nuestra Tarjeta de <span class="gold-gradient-text">Visita Oficial</span></h2>
+        <p class="section-subtitle">
+          Guarda nuestro contacto directo en tu teléfono móvil con un solo clic, compártela por WhatsApp o imprímela en alta resolución con calidad fotográfica profesional.
+        </p>
+      </div>
+
+      <div class="digital-duo-cards-wrap">
+        <!-- CARA 1: Frontal -->
+        <div class="card-item-container">
+          <div class="card-item-tag">Cara 1 &bull; Frontal de Lujo</div>
+          <div class="card-presentation-box card-face-front" id="publicCardFront">
+            <img id="publicCardFrontImg" src="assets/images/tarjeta-frontal-gold.jpg" alt="Goldenplac Tarjeta Cara Frontal" class="card-img-fit">
+          </div>
+        </div>
+
+        <!-- CARA 2: Trasera -->
+        <div class="card-item-container">
+          <div class="card-item-tag">Cara 2 &bull; Contacto & Servicios</div>
+          <div class="card-presentation-box card-face-back" id="publicCardBack">
+            <div class="card-back-top-row">
+              <div class="card-back-logo-text">
+                <strong id="pubBackBrand">GOLDENPLAC</strong>
+                <span id="pubBackSubtitle">PLADUR & REFORMAS</span>
+              </div>
+              <div class="card-back-city" id="pubBackLocation">MADRID</div>
+            </div>
+
+            <div class="card-back-center-grid">
+              <div class="card-back-contact-list">
+                <a href="tel:+34634283451" class="card-c-row" id="pubBackPhoneLink">
+                  <div class="c-icon-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <span id="pubBackPhone">+34 634 28 34 51</span>
+                </a>
+
+                <a href="mailto:goldenplac85@gmail.com" class="card-c-row" id="pubBackEmailLink">
+                  <div class="c-icon-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  </div>
+                  <span id="pubBackEmail">goldenplac85@gmail.com</span>
+                </a>
+
+                <a href="https://www.goldenplac.es" target="_blank" class="card-c-row" id="pubBackWebLink">
+                  <div class="c-icon-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                  </div>
+                  <span id="pubBackWebsite">www.goldenplac.es</span>
+                </a>
+
+                <div class="card-c-row">
+                  <div class="c-icon-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                  </div>
+                  <span id="pubBackAddress">C/ de Humera, 14 &bull; Fuenlabrada</span>
+                </div>
+              </div>
+
+              <div class="card-back-qr-box">
+                <div class="qr-white-frame">
+                  <img id="pubBackQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fwa.me%2F34634283451%3Ftext%3DHola%20Goldenplac" alt="QR WhatsApp">
+                </div>
+                <div class="qr-label-mini" id="pubBackQrCaption">Escanear WhatsApp</div>
+              </div>
+            </div>
+
+            <div class="card-back-bottom-row">
+              <div class="card-services-pills" id="pubBackServicesWrap">
+                <span style="white-space: nowrap;">Techos LED</span> <span class="sep">&bull;</span>
+                <span style="white-space: nowrap;">Tabiquería</span> <span class="sep">&bull;</span>
+                <span style="white-space: nowrap;">Insonorización</span> <span class="sep">&bull;</span>
+                <span style="white-space: nowrap;">Muebles TV</span>
+              </div>
+              <div class="card-guarantee-mini" id="pubBackGuarantee">Garantía por escrito</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="digital-card-actions-bar" style="margin-top: 2.2rem;">
+        <button class="btn btn-gold" onclick="downloadGoldenplacVCard()" style="box-shadow: 0 4px 20px rgba(197, 160, 89, 0.35);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span>Guardar en Contactos (.vcf)</span>
+        </button>
+
+        <button class="btn btn-outline-gold" onclick="shareGoldenplacCard()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+          <span>Compartir Tarjeta</span>
+        </button>
+
+        <button class="btn btn-outline-gold" onclick="const f = document.getElementById('cardStudioIframe'); if(f && f.contentWindow) f.contentWindow.print();">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <span>Imprimir Tarjeta</span>
+        </button>
+
+        <button class="btn btn-outline-gold" onclick="const f = document.getElementById('cardStudioIframe'); if(f && f.contentWindow) f.contentWindow.print();" style="border-color: var(--gold-300);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="12" y2="18"></line><line x1="15" y1="15" x2="12" y2="18"></line></svg>
+          <span>Descargar PDF</span>
+        </button>
+      </div>
+
+      <!-- Iframe idéntico al de admin.html para garantizar la misma impresión -->
+      <iframe id="cardStudioIframe" src="tarjeta-visita.html" style="position: fixed; top: 0; left: 0; width: 0; height: 0; border: none; opacity: 0; pointer-events: none; z-index: -9999;" title="Tarjeta Print"></iframe>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <a href="#inicio" class="logo-brand footer-logo" title="Goldenplac SL">
+            <img src="assets/images/logo-goldenplac.png" alt="Goldenplac - Pladur y Reformas Madrid" class="site-header-logo">
+          </a>
+          <p id="footer-slogan">
+            Especialistas en montaje de pladur de alta gama, falsos techos con luz indirecta, insonorización certificada y reformas integrales llave en mano en Madrid.
+          </p>
+          <div style="margin-top: 1.2rem; font-size: 0.8rem; color: var(--gold-400);">
+            Goldenplac SL &bull; CIF: B21844873
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Servicios</h4>
+          <ul class="footer-links-list">
+            <li><a href="#servicios">Falsos Techos LED</a></li>
+            <li><a href="#servicios">Tabiques de Pladur</a></li>
+            <li><a href="#servicios">Muebles de TV y Hornacinas</a></li>
+            <li><a href="#servicios">Insonorización Acústica</a></li>
+            <li><a href="#servicios">Reformas Integrales</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Enlaces</h4>
+          <ul class="footer-links-list">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#calculadora">Calculadora Online</a></li>
+            <li><a href="#comparador">Antes y Después</a></li>
+            <li><a href="#proyectos">Galería de Obras</a></li>
+            <li><a href="#testimonios">Reseñas de Clientes</a></li>
+            <li><a href="tarjeta-visita.html" target="_blank" style="color: var(--gold-300); font-weight: 500;">Tarjeta de Visita</a></li>
+            <li><a href="admin.html" style="color: var(--gold-300); font-weight: 600;">Acceso Admin</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Contacto Directo</h4>
+          <div class="footer-contact-info">
+            <div class="footer-contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <a href="https://www.google.com/maps/place/Goldenplac/@40.2854359,-3.798811,16z/data=!4m6!3m5!1s0xd418b006727ba15:0x4c9851d81ee05896!8m2!3d40.2860375!4d-3.7960108!16s%2Fg%2F11z3y9ngcg?entry=ttu" target="_blank" rel="noopener" id="footer-address" style="color: #ffffff; text-decoration: underline; text-underline-offset: 3px;" title="Ver ubicación en Google Maps">Calle de Humera, 14, 28945 Fuenlabrada, Madrid</a>
+            </div>
+            <div class="footer-contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <a href="tel:+34634283451" id="footer-phone" style="color: #ffffff; font-weight: 600;">+34 634 28 34 51</a>
+            </div>
+            <div class="footer-contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <a href="mailto:goldenplac.sl@gmail.com" id="footer-email">goldenplac.sl@gmail.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Goldenplac SL &bull; Todos los derechos reservados.</span>
+        <span>Especialistas en Pladur y Reformas Integrales en Madrid.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Widget -->
+  <a href="https://wa.me/34634283451?text=Hola%20Goldenplac,%20quisiera%20pedir%20presupuesto%20para%20un%20trabajo" target="_blank" class="whatsapp-float" id="floatingWhatsapp" title="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/></svg>
+  </a>
+
+  <!-- Modal Presupuesto -->
+  <div class="modal-overlay" id="quoteModal">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeQuoteModal()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <div class="modal-header">
+        <h3 class="modal-title">Pedir Presupuesto Gratis</h3>
+        <p class="modal-subtitle">Te contestamos en menos de 24h con visita técnica sin coste.</p>
+      </div>
+
+      <form id="quoteForm" onsubmit="handleQuoteSubmit(event)">
+        <!-- Anti-Bot Honeypot Trap (Invisible to humans, catches automated spam bots) -->
+        <div style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+          <label for="hpCompanyTrap">Leave this empty</label>
+          <input type="text" id="hpCompanyTrap" name="hp_company_trap" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="modal-form-grid">
+          <div class="calc-group">
+            <label class="calc-label" for="modalName">Nombre completo *</label>
+            <input type="text" id="modalName" class="calc-input" required placeholder="Ej: Javier López">
+          </div>
+
+          <div class="calc-group">
+            <label class="calc-label" for="modalPhone">Teléfono de contacto *</label>
+            <input type="tel" id="modalPhone" class="calc-input" required placeholder="Ej: 612 345 678">
+          </div>
+        </div>
+
+        <div class="modal-form-grid">
+          <div class="calc-group">
+            <label class="calc-label" for="modalEmail">Correo electrónico</label>
+            <input type="email" id="modalEmail" class="calc-input" placeholder="Ej: correo@gmail.com">
+          </div>
+
+          <div class="calc-group">
+            <label class="calc-label" for="modalZone">Zona o Municipio</label>
+            <input type="text" id="modalZone" class="calc-input" placeholder="Ej: Fuenlabrada, Pozuelo...">
+          </div>
+        </div>
+
+        <div class="calc-group" style="margin-bottom: 0.65rem;">
+          <label class="calc-label" for="modalService">Tipo de servicio</label>
+          <select id="modalService" class="calc-select">
+            <option value="Falsos Techos y Foseados LED">Falsos Techos y Foseados LED</option>
+            <option value="Tabiques y Trasdosados">Tabiques y Trasdosados de Pladur</option>
+            <option value="Muebles y Pared de TV">Muebles y Pared de TV a Medida</option>
+            <option value="Insonorización Acústica">Insonorización Acústica y Térmica</option>
+            <option value="Reforma Integral">Reforma Integral de Vivienda</option>
+            <option value="Otro trabajo de Pladur">Otro trabajo de Pladur</option>
+          </select>
+        </div>
+
+        <div class="calc-group" style="margin-bottom: 1rem;">
+          <label class="calc-label" for="modalMessage">Detalles de la obra o metros aprox.</label>
+          <textarea id="modalMessage" class="calc-input" style="min-height: 52px; height: 52px; resize: vertical;" placeholder="Cuéntanos brevemente qué necesitas realizar..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-gold" id="modalSubmitBtn" style="width: 100%; padding: 0.85rem 1.2rem; font-size: 0.98rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.6rem; box-shadow: 0 4px 20px rgba(197, 160, 89, 0.35);">
+          <span>Enviar Solicitud de Presupuesto</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lightbox de Galería de Obras -->
+  <div class="gallery-lightbox-overlay" id="galleryLightbox" onclick="handleLightboxBackdropClick(event)">
+    <div class="gallery-lightbox-container" role="dialog" aria-modal="true" aria-label="Visualizador de obra de pladur">
+      <button class="gallery-lightbox-close" onclick="closeGalleryLightbox()" title="Cerrar (Esc)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+
+      <button class="gallery-lightbox-nav-btn prev" onclick="navigateLightbox(-1)" title="Foto anterior">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+      <div class="gallery-lightbox-img-wrap">
+        <img id="lightboxImg" src="" alt="Obra Pladur">
+      </div>
+
+      <button class="gallery-lightbox-nav-btn next" onclick="navigateLightbox(1)" title="Siguiente foto">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+
+      <div class="gallery-lightbox-info">
+        <div style="max-width: 600px;">
+          <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+            <span class="project-category-tag" id="lightboxCategory" style="position: static; padding: 0.2rem 0.65rem;">Categoría</span>
+            <span id="lightboxLocation" style="color: var(--gold-400); font-size: 0.84rem; display: flex; align-items: center; gap: 0.3rem;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <span id="lightboxLocationText">Madrid</span>
+            </span>
+          </div>
+          <h3 id="lightboxTitle" style="color: #fff; font-size: 1.15rem; margin-bottom: 0.4rem;">Título de la Obra</h3>
+          <p id="lightboxDesc" style="color: var(--text-on-dark-muted); font-size: 0.88rem; line-height: 1.5; margin: 0;">Descripción detallada</p>
+        </div>
+        <div style="text-align: right; min-width: 140px;">
+          <div id="lightboxDuration" style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 0.5rem;">Tiempo: 3 días</div>
+          <button class="btn btn-gold btn-sm" onclick="closeGalleryLightbox(); openQuoteModal();">
+            <span>Pedir Obra Similar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Action Bar (Sticky on mobile phones) -->
+  <div class="mobile-bottom-bar" id="mobileBottomBar">
+    <a href="tel:+34634283451" class="mobile-bar-btn call" id="mobileBarCall">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      <span>Llamar</span>
+    </a>
+    <a href="https://wa.me/34634283451?text=Hola%20Goldenplac,%20quisiera%20pedir%20presupuesto" target="_blank" class="mobile-bar-btn whatsapp" id="mobileBarWa">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/></svg>
+      <span>WhatsApp</span>
+    </a>
+    <button onclick="openQuoteModal()" class="mobile-bar-btn quote" id="mobileBarQuote">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12a7.9 7.9 0 0 0 7.8 8 7.7 7.7 0 0 0 5.2-2"></path><path d="M4 10h12"></path><path d="M4 14h12"></path></svg>
+      <span>Presupuesto</span>
+    </button>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/store.js?v=3.1"></script>
+  <script src="js/app.js?v=3.1"></script>
+</body>
+</html>

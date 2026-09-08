@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración | Goldenplac SL</title>
+  <link rel="icon" type="image/png" href="assets/images/logo-goldenplac.png">
+  <link rel="stylesheet" href="css/main.css?v=3.4">
+  <link rel="stylesheet" href="css/admin.css?v=3.4">
+  <style>
+    /* CRITICAL: Force modals to be overlay and hidden by default, bypassing any CSS cache */
+    .modal-overlay {
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 10000 !important;
+      background: rgba(3, 7, 18, 0.88) !important;
+      backdrop-filter: blur(10px) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
+      display: none;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 1.5rem !important;
+    }
+    .modal-overlay.active {
+      display: flex !important;
+    }
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- Lock Screen Gate -->
+  <div class="lock-screen" id="lockScreen">
+    <div class="lock-card">
+      <div class="lock-logo-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </div>
+      <h2 class="lock-title">Panel de Control</h2>
+      <p class="lock-subtitle">Goldenplac SL &bull; Acceso Restringido</p>
+
+      <form id="pinForm" onsubmit="handlePinSubmit(event)">
+        <div class="pin-input-group">
+          <input type="password" id="adminPinInput" class="pin-input" maxlength="25" placeholder="••••••••" autofocus required autocomplete="current-password">
+          <div class="pin-error" id="pinError">Código PIN incorrecto. Inténtalo de nuevo.</div>
+          <div id="lockoutNotice" style="display: none; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; font-size: 0.8rem; padding: 0.5rem 0.65rem; border-radius: 6px; margin-top: 0.5rem; text-align: center; line-height: 1.4;"></div>
+        </div>
+
+        <button type="submit" id="pinSubmitBtn" class="btn btn-gold" style="width: 100%;">
+          <span>Acceder al Panel</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-header">
+      <a href="index.html" title="Volver a la web de Goldenplac" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="assets/images/logo-goldenplac.png" alt="Goldenplac" style="height: 44px; width: auto; max-height: 48px; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));">
+      </a>
+      <button type="button" class="admin-sidebar-close-btn" onclick="toggleAdminSidebar(false)" aria-label="Cerrar menú">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <nav class="admin-nav">
+      <div class="admin-nav-item active" data-tab="tab-dashboard" onclick="switchTab('tab-dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Resumen General</span>
+      </div>
+
+      <div class="admin-nav-item" data-tab="tab-leads" onclick="switchTab('tab-leads')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        <span>Solicitudes y Leads</span>
+        <span class="admin-badge-count" id="badgeLeadsCount">0</span>
+      </div>
+
+      <div class="admin-nav-item" data-tab="tab-company" onclick="switchTab('tab-company')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>Empresa & Textos</span>
+      </div>
+
+      <div class="admin-nav-item" data-tab="tab-services" onclick="switchTab('tab-services')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+        <span>Servicios</span>
+      </div>
+
+      <div class="admin-nav-item" data-tab="tab-projects" onclick="switchTab('tab-projects')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <span>Galería de Obras</span>
+      </div>
+
+      <div class="admin-nav-item" data-tab="tab-beforeafter" onclick="switchTab('tab-beforeafter')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="12" y1="3" x2="12" y2="17"></line><polyline points="8 21 12 17 16 21"></polyline></svg>
+        <span>Antes y Después</span>
+      </div>
+
+      <div class="admin-nav-item" data-tab="tab-testimonials" onclick="switchTab('tab-testimonials')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <span>Opiniones Clientes</span>
+      </div>
+
+      <div class="admin-nav-item" data-tab="tab-businesscard" onclick="switchTab('tab-businesscard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/><line x1="14" y1="15" x2="18" y2="15"/></svg>
+        <span>Tarjeta de Visita</span>
+      </div>
+
+      <div class="admin-nav-item" data-tab="tab-backup" onclick="switchTab('tab-backup')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        <span>Seguridad & Backup</span>
+      </div>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <a href="index.html" target="_blank" class="btn btn-outline" style="width: 100%; font-size: 0.85rem; padding: 0.65rem 1rem;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        <span>Ver Web Pública</span>
+      </a>
+      <button onclick="logoutAdmin()" class="btn btn-outline" style="width: 100%; font-size: 0.85rem; padding: 0.65rem 1rem; border-color: rgba(239, 68, 68, 0.4); color: #f87171;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Cerrar Sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div class="admin-sidebar-backdrop" id="adminSidebarBackdrop" onclick="toggleAdminSidebar(false)"></div>
+
+  <!-- Main Content Wrapper -->
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-topbar-left">
+        <button type="button" class="admin-mobile-menu-btn" id="adminMobileMenuBtn" aria-label="Abrir menú de navegación" onclick="toggleAdminSidebar(true)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <h1 class="admin-page-title" id="adminTopTitle">Resumen General</h1>
+      </div>
+      <div class="admin-topbar-actions">
+        <span class="admin-user-pill">
+          <span class="admin-status-dot"></span>
+          <strong style="color: var(--admin-gold);">Admin</strong>
+        </span>
+      </div>
+    </header>
+
+    <div class="admin-container">
+
+      <!-- TAB 1: DASHBOARD OVERVIEW -->
+      <div class="admin-tab-content active" id="tab-dashboard">
+        <div class="stats-cards-grid">
+          <div class="stat-card">
+            <div class="stat-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+            <div class="stat-card-info">
+              <h3>Solicitudes Recibidas</h3>
+              <div class="stat-card-value" id="statLeadsCount">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            </div>
+            <div class="stat-card-info">
+              <h3>Servicios Publicados</h3>
+              <div class="stat-card-value" id="statServicesCount">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            </div>
+            <div class="stat-card-info">
+              <h3>Obras en Galería</h3>
+              <div class="stat-card-value" id="statProjectsCount">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <div class="stat-card-info">
+              <h3>Opiniones Verificadas</h3>
+              <div class="stat-card-value" id="statReviewsCount">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h2 class="admin-card-title">Últimas Solicitudes de Devis Recibidas</h2>
+            <button class="btn btn-outline" style="font-size: 0.82rem; padding: 0.5rem 1rem;" onclick="switchTab('tab-leads')">Ver Todas</button>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table" id="dashboardRecentLeadsTable">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Teléfono</th>
+                  <th>Servicio</th>
+                  <th>Zona</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardRecentLeadsBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Card Visit Quick Access Banner -->
+        <div class="admin-card" style="margin-top: 1.5rem; background: linear-gradient(135deg, rgba(10, 21, 38, 0.95), rgba(197, 160, 89, 0.12)); border: 1px solid rgba(197, 160, 89, 0.35); padding: 1.5rem 1.75rem;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div style="width: 52px; height: 52px; border-radius: 12px; background: var(--admin-gold-gradient); display: flex; align-items: center; justify-content: center; color: #070d18; font-size: 1.6rem; flex-shrink: 0; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.35);">
+                💳
+              </div>
+              <div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 0.25rem;">Diseñador de Tarjetas de Visita (85 × 55 mm)</h3>
+                <p style="font-size: 0.84rem; color: var(--admin-text-muted); margin: 0;">Personaliza en tiempo real los textos, teléfonos, servicios, colores metálicos y el código QR de WhatsApp / Web para imprimir tus tarjetas físicas.</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.75rem;">
+              <button class="btn btn-gold" onclick="switchTab('tab-businesscard')">
+                <span>Diseñar en el Admin</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+              <a href="tarjeta-visita.html" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; padding: 0.6rem 1rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                <span>Ventana Nueva</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: SOLICITUDES Y LEADS -->
+      <div class="admin-tab-content" id="tab-leads">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div>
+              <h2 class="admin-card-title">Bandeja de Solicitudes de Presupuesto</h2>
+              <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 0.2rem;">Clientes que han solicitado presupuesto a través de la web o de la calculadora.</p>
+            </div>
+            <button class="btn btn-gold" onclick="exportLeadsCSV()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Exportar a Excel / CSV</span>
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Cliente</th>
+                  <th>Contacto</th>
+                  <th>Servicio & Zona</th>
+                  <th>Mensaje</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="fullLeadsTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: EMPRESA & TEXTOS -->
+      <div class="admin-tab-content" id="tab-company">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h2 class="admin-card-title">Información de Contacto y Datos de la Empresa</h2>
+            <button class="btn btn-gold" onclick="saveCompanyDetails()">Guardar Cambios</button>
+          </div>
+
+          <div class="admin-form-grid">
+            <div class="admin-form-group">
+              <label class="admin-label">Nombre Comercial</label>
+              <input type="text" id="cfgCompanyName" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-label">CIF / NIF</label>
+              <input type="text" id="cfgCompanyCif" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-label">Teléfono Público (Visible en la web)</label>
+              <input type="text" id="cfgCompanyPhone" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-label">Número de WhatsApp (con prefijo sin +, ej: 34634283451)</label>
+              <input type="text" id="cfgCompanyWhatsapp" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-label">Correo Electrónico</label>
+              <input type="email" id="cfgCompanyEmail" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-label">Horario de Atención</label>
+              <input type="text" id="cfgCompanySchedule" class="admin-input">
+            </div>
+
+            <div class="admin-form-group col-full">
+              <label class="admin-label">Dirección Física Completa</label>
+              <input type="text" id="cfgCompanyAddress" class="admin-input">
+            </div>
+
+            <div class="admin-form-group col-full">
+              <label class="admin-label">Enlace a Google Maps (Ficha oficial del negocio)</label>
+              <input type="url" id="cfgCompanyMapsUrl" class="admin-input" placeholder="https://www.google.com/maps/place/Goldenplac/...">
+            </div>
+
+            <div class="admin-form-group col-full">
+              <label class="admin-label">Slogan / Descripción Breve (Footer)</label>
+              <textarea id="cfgCompanySlogan" class="admin-textarea" style="min-height: 70px;"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h2 class="admin-card-title">Textos de la Portada (Hero Section)</h2>
+            <button class="btn btn-gold" onclick="saveHeroTexts()">Guardar Textos Hero</button>
+          </div>
+
+          <div class="admin-form-grid">
+            <div class="admin-form-group col-full">
+              <label class="admin-label">Etiqueta Superior (Badge)</label>
+              <input type="text" id="cfgHeroBadge" class="admin-input">
+            </div>
+
+            <div class="admin-form-group col-full">
+              <label class="admin-label">Título Principal (H1)</label>
+              <input type="text" id="cfgHeroTitle" class="admin-input">
+            </div>
+
+            <div class="admin-form-group col-full">
+              <label class="admin-label">Subtítulo / Claim</label>
+              <textarea id="cfgHeroSubtitle" class="admin-textarea"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: SERVICIOS -->
+      <div class="admin-tab-content" id="tab-services">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div>
+              <h2 class="admin-card-title">Gestión de Servicios Ofrecidos</h2>
+              <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 0.2rem;">Añade nuevos servicios o modifica precios y descripciones.</p>
+            </div>
+            <button class="btn btn-gold" onclick="openAddServiceModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Añadir Nuevo Servicio</span>
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Título del Servicio</th>
+                  <th>Categoría</th>
+                  <th>Etiqueta</th>
+                  <th>Precio Estimado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="servicesTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: GALERÍA DE OBRAS -->
+      <div class="admin-tab-content" id="tab-projects">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div>
+              <h2 class="admin-card-title">Gestión de Galería y Portfolio de Obras</h2>
+              <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 0.2rem;">Gestiona las fotos y detalles de las obras ejecutadas.</p>
+            </div>
+            <button class="btn btn-gold" onclick="openAddProjectModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Añadir Nueva Obra</span>
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Foto</th>
+                  <th>Título del Proyecto</th>
+                  <th>Categoría</th>
+                  <th>Ubicación</th>
+                  <th>Duración</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="projectsTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 6: ANTES Y DESPUÉS (COMPARADOR) -->
+      <div class="admin-tab-content" id="tab-beforeafter">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div>
+              <h2 class="admin-card-title">Comparador Interactivo Antes y Después</h2>
+              <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 0.2rem;">Controla las transformaciones interactivas antes/después mostradas a los clientes en la portada.</p>
+            </div>
+            <button class="btn btn-gold" onclick="openAddBeforeAfterModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Añadir Comparación Antes / Después</span>
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="min-width: 150px;">Fotos (Antes / Después)</th>
+                  <th>Título</th>
+                  <th>Categoría</th>
+                  <th>Descripción de la Obra</th>
+                  <th style="text-align: right;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="beforeAfterTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 7: OPINIONES CLIENTES -->
+      <div class="admin-tab-content" id="tab-testimonials">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div>
+              <h2 class="admin-card-title">Gestión de Reseñas y Testimonios</h2>
+              <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 0.2rem;">Controla las opiniones de clientes mostradas en la portada.</p>
+            </div>
+            <button class="btn btn-gold" onclick="openAddTestimonialModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Añadir Testimonio</span>
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Localidad</th>
+                  <th>Servicio</th>
+                  <th>Estrellas</th>
+                  <th>Comentario</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="testimonialsTableBody">
+                <!-- Injected via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 7: SEGURIDAD & BACKUP -->
+      <div class="admin-tab-content" id="tab-backup">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h2 class="admin-card-title">Seguridad y Código de Acceso</h2>
+          </div>
+          <div style="max-width: 480px;">
+            <div class="admin-form-group" style="margin-bottom: 1.2rem;">
+              <label class="admin-label">Cambiar Código PIN de Acceso al Admin</label>
+              <input type="password" id="newAdminPin" class="admin-input" placeholder="Nuevo PIN (mínimo 4 caracteres)">
+            </div>
+            <button class="btn btn-gold" onclick="saveNewPin()">Actualizar Código PIN</button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div>
+              <h2 class="admin-card-title">Copia de Seguridad (Backup) y Restauración</h2>
+              <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 0.2rem;">Descarga una copia completa de toda la información para guardarla o restaurarla en cualquier momento.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 2rem;">
+            <button class="btn btn-gold" onclick="downloadBackup()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Descargar Copia de Seguridad (.json)</span>
+            </button>
+
+            <label class="btn btn-outline" style="cursor: pointer;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <span>Restaurar Copia de Seguridad</span>
+              <input type="file" id="restoreFileInput" accept=".json" style="display: none;" onchange="handleRestoreBackup(event)">
+            </label>
+          </div>
+
+          <div style="border-top: 1px solid var(--admin-border); padding-top: 1.5rem;">
+            <h4 style="color: #f87171; font-size: 1rem; margin-bottom: 0.5rem;">Restablecer a Datos Iniciales de Fábrica</h4>
+            <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-bottom: 1rem;">Si deseas volver a los contenidos y fotos originales de Goldenplac SL:</p>
+            <button class="btn btn-outline" style="border-color: rgba(239, 68, 68, 0.5); color: #f87171;" onclick="resetStoreToDefault()">
+              Restablecer Valores Iniciales
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 9: TARJETA DE VISITA -->
+      <div class="admin-tab-content" id="tab-businesscard" style="display: none;">
+        <div class="admin-card" style="padding: 1.25rem 1.5rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+            <div>
+              <h2 class="admin-card-title" style="margin: 0; font-size: 1.2rem;">🎨 Diseñador y Personalizador de Tarjetas de Visita</h2>
+              <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-top: 0.25rem;">
+                Modifica todos los textos, teléfonos, especialidades, código QR dinámico y acabados metálicos en tiempo real (85 × 55 mm).
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <a href="tarjeta-visita.html" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; padding: 0.6rem 1.1rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                <span>Abrir en Pantalla Completa</span>
+              </a>
+              <button type="button" class="btn btn-gold" onclick="const f = document.getElementById('cardStudioIframe'); if(f && f.contentWindow) f.contentWindow.print();" style="font-size: 0.85rem; padding: 0.6rem 1.1rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                <span>Imprimir / Descargar PDF</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: #08111e; border: 1px solid var(--admin-border); border-radius: 14px; overflow: hidden; height: calc(100vh - 210px); min-height: 680px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+          <iframe id="cardStudioIframe" src="tarjeta-visita.html" style="width: 100%; height: 100%; border: none; display: block;" title="Diseñador de Tarjeta de Visita"></iframe>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL: SERVICIO ADD/EDIT -->
+  <div class="modal-overlay" id="serviceModal" style="display: none;">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeServiceModal()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <div class="modal-header">
+        <h3 class="modal-title" id="serviceModalTitle">Añadir Servicio</h3>
+      </div>
+      <form onsubmit="handleSaveService(event)">
+        <input type="hidden" id="serviceEditId">
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Título del Servicio *</label>
+          <input type="text" id="modalServiceTitle" class="admin-input" required placeholder="Ej: Falsos Techos Foseados con LED">
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Categoría</label>
+          <select id="modalServiceCategory" class="admin-select">
+            <option value="Techos">Techos</option>
+            <option value="Tabiques">Tabiques</option>
+            <option value="Muebles">Muebles</option>
+            <option value="Aislamiento">Aislamiento</option>
+            <option value="Reformas">Reformas</option>
+            <option value="Especiales">Especiales</option>
+          </select>
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Etiqueta Destacada (Opcional)</label>
+          <input type="text" id="modalServiceTag" class="admin-input" placeholder="Ej: Especialidad Estrella">
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Foto del Servicio (Subir desde tu ordenador o introducir URL)</label>
+          
+          <div class="image-upload-zone" onclick="document.getElementById('modalServiceFileInput').click()">
+            <svg class="image-upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <div class="image-upload-text">Haz clic aquí para seleccionar una foto de tu ordenador / teléfono</div>
+            <div class="image-upload-hint">Admite formatos JPG, PNG, WEBP (se optimiza automáticamente)</div>
+            <input type="file" id="modalServiceFileInput" accept="image/*" style="display: none;" onchange="handleImageFileSelect(event, 'modalServiceImage', 'servicePreviewBox', 'servicePreviewImg')">
+          </div>
+
+          <div class="image-preview-box" id="servicePreviewBox">
+            <img src="" id="servicePreviewImg" alt="Vista previa">
+            <button type="button" class="image-preview-remove" onclick="clearImagePreview('modalServiceImage', 'servicePreviewBox', 'servicePreviewImg')" title="Quitar foto">&times;</button>
+          </div>
+
+          <input type="text" id="modalServiceImage" class="admin-input" style="margin-top: 0.5rem;" placeholder="assets/images/techos-led.jpg" oninput="updatePreviewFromUrl('modalServiceImage', 'servicePreviewBox', 'servicePreviewImg')">
+          
+          <div class="preset-images-strip">
+            <span style="font-size: 0.72rem; color: var(--admin-text-muted);">Fotos rápidas:</span>
+            <span class="preset-chip" onclick="setPresetImage('modalServiceImage', 'servicePreviewBox', 'servicePreviewImg', 'assets/images/techos-led.jpg')">Techo LED</span>
+            <span class="preset-chip" onclick="setPresetImage('modalServiceImage', 'servicePreviewBox', 'servicePreviewImg', 'assets/images/mueble-tv.jpg')">Mueble TV</span>
+            <span class="preset-chip" onclick="setPresetImage('modalServiceImage', 'servicePreviewBox', 'servicePreviewImg', 'assets/images/hero-bg.jpg')">Salón Reforma</span>
+          </div>
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Precio Estimado (Orientativo)</label>
+          <input type="text" id="modalServicePrice" class="admin-input" placeholder="Ej: Desde 28 €/m²">
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1.5rem;">
+          <label class="admin-label">Descripción Detallada *</label>
+          <textarea id="modalServiceDesc" class="admin-textarea" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width: 100%;">Guardar Servicio</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: PROYECTO ADD/EDIT -->
+  <div class="modal-overlay" id="projectModal" style="display: none;">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeProjectModal()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <div class="modal-header">
+        <h3 class="modal-title" id="projectModalTitle">Añadir Obra a la Galería</h3>
+      </div>
+      <form onsubmit="handleSaveProject(event)">
+        <input type="hidden" id="projectEditId">
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Título del Proyecto *</label>
+          <input type="text" id="modalProjectTitle" class="admin-input" required placeholder="Ej: Falso techo con foseado en Salamanca">
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Categoría *</label>
+          <select id="modalProjectCategory" class="admin-select">
+            <option value="Techos">Techos</option>
+            <option value="Tabiques">Tabiques</option>
+            <option value="Muebles">Muebles</option>
+            <option value="Reformas">Reformas</option>
+            <option value="Aislamiento">Aislamiento</option>
+          </select>
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Ubicación / Barrio en Madrid</label>
+          <input type="text" id="modalProjectLocation" class="admin-input" placeholder="Ej: Barrio de Salamanca, Madrid">
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Foto Principal de la Obra (Subir desde tu ordenador o introducir URL)</label>
+
+          <div class="image-upload-zone" onclick="document.getElementById('modalProjectFileInput').click()">
+            <svg class="image-upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <div class="image-upload-text">Haz clic aquí para subir una foto de la obra desde tu PC / Teléfono</div>
+            <div class="image-upload-hint">Admite formatos JPG, PNG, WEBP (se optimiza y guarda al instante)</div>
+            <input type="file" id="modalProjectFileInput" accept="image/*" style="display: none;" onchange="handleImageFileSelect(event, 'modalProjectImage', 'projectPreviewBox', 'projectPreviewImg')">
+          </div>
+
+          <div class="image-preview-box" id="projectPreviewBox">
+            <img src="" id="projectPreviewImg" alt="Vista previa de obra">
+            <button type="button" class="image-preview-remove" onclick="clearImagePreview('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg')" title="Quitar foto">&times;</button>
+          </div>
+
+          <input type="text" id="modalProjectImage" class="admin-input" style="margin-top: 0.5rem;" required placeholder="assets/images/hero-bg.jpg" oninput="updatePreviewFromUrl('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg')">
+
+          <div class="preset-images-strip" style="flex-wrap: wrap; max-height: 110px; overflow-y: auto;">
+            <span style="font-size: 0.72rem; color: var(--admin-text-muted); width: 100%; margin-bottom: 0.2rem;">Fotos reales de obras en carpeta /img:</span>
+            <span class="preset-chip" onclick="setPresetImage('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg', 'img/falso-techo-recien-montado.mKmm81ID_ZG1BbR.webp')">Techo Foseado LED</span>
+            <span class="preset-chip" onclick="setPresetImage('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg', 'img/bano-ducha-travertino.qpW4YUMO_ZuDMfc.webp')">Baño Travertino</span>
+            <span class="preset-chip" onclick="setPresetImage('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg', 'img/falso-techo-estructura-laser.DVKOl4RW_1XmsUU.webp')">Nivelación Láser</span>
+            <span class="preset-chip" onclick="setPresetImage('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg', 'img/bano-doble-lavabo.DyU1DUkJ_Znu7Wz.webp')">Doble Lavabo</span>
+            <span class="preset-chip" onclick="setPresetImage('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg', 'img/perfileria-tabique-estructura.DlthMHk-_1GGuHp.webp')">Perfilería Tabique</span>
+            <span class="preset-chip" onclick="setPresetImage('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg', 'img/cocina-isla-gris.DCLeBwB-_12b5Po.webp')">Cocina Isla</span>
+            <span class="preset-chip" onclick="setPresetImage('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg', 'img/armarios-empotrados-construccion.DuDYALwq_Z2nydGz.webp')">Armarios Pladur</span>
+            <span class="preset-chip" onclick="setPresetImage('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg', 'img/climatizacion-tubo-extraccion.B8YjA5de_ZfMoRz.webp')">Climatización</span>
+            <span class="preset-chip" onclick="setPresetImage('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg', 'img/porche-exterior-pladur-hidrofugo.VcWTDvv__ZXGue4.webp')">Porche Exterior</span>
+            <span class="preset-chip" onclick="setPresetImage('modalProjectImage', 'projectPreviewBox', 'projectPreviewImg', 'img/local-obra-proceso.Co5TiarM_2wd6JG.webp')">Local Comercial</span>
+          </div>
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Duración de la Obra</label>
+          <input type="text" id="modalProjectDuration" class="admin-input" placeholder="Ej: 3 días">
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1.5rem;">
+          <label class="admin-label">Descripción Breve</label>
+          <textarea id="modalProjectDesc" class="admin-textarea"></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width: 100%;">Guardar Obra</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: TESTIMONIO ADD/EDIT -->
+  <div class="modal-overlay" id="testimonialModal" style="display: none;">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeTestimonialModal()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <div class="modal-header">
+        <h3 class="modal-title" id="testimonialModalTitle">Añadir Testimonio</h3>
+      </div>
+      <form onsubmit="handleSaveTestimonial(event)">
+        <input type="hidden" id="testimonialEditId">
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Nombre del Cliente *</label>
+          <input type="text" id="modalTestName" class="admin-input" required placeholder="Ej: Carlos Mendoza">
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Localidad / Zona</label>
+          <input type="text" id="modalTestLocation" class="admin-input" placeholder="Ej: Madrid (Chamberí)">
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Servicio Realizado</label>
+          <input type="text" id="modalTestService" class="admin-input" placeholder="Ej: Falso techo LED en salón">
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Valoración (Estrellas)</label>
+          <select id="modalTestRating" class="admin-select">
+            <option value="5">5 Estrellas (Excelente)</option>
+            <option value="4">4 Estrellas (Muy bueno)</option>
+          </select>
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Foto de Perfil del Cliente (URL o subir desde tu dispositivo)</label>
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <div class="image-preview-box" id="testPreviewBox" style="width: 48px; height: 48px; border-radius: 50%; min-width: 48px; margin-top: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid var(--admin-gold); background: #0b1120;">
+              <img src="" id="testPreviewImg" alt="Vista previa cliente" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="flex: 1;">
+              <input type="text" id="modalTestAvatar" class="admin-input" placeholder="URL o subir foto de perfil" oninput="updatePreviewFromUrl('modalTestAvatar', 'testPreviewBox', 'testPreviewImg')">
+            </div>
+            <button type="button" class="btn btn-outline" style="padding: 0.65rem 0.85rem; font-size: 0.8rem; white-space: nowrap;" onclick="document.getElementById('modalTestFileInput').click()">Subir Foto</button>
+            <input type="file" id="modalTestFileInput" accept="image/*" style="display: none;" onchange="handleImageFileSelect(event, 'modalTestAvatar', 'testPreviewBox', 'testPreviewImg')">
+          </div>
+        </div>
+        <div class="admin-form-group" style="margin-bottom: 1.5rem;">
+          <label class="admin-label">Comentario del Cliente *</label>
+          <textarea id="modalTestComment" class="admin-textarea" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width: 100%;">Guardar Testimonio</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ANTES Y DESPUÉS ADD/EDIT -->
+  <div class="modal-overlay" id="beforeAfterModal" style="display: none;">
+    <div class="modal-content" style="max-width: 640px;">
+      <button class="modal-close-btn" onclick="closeBeforeAfterModal()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <div class="modal-header">
+        <h3 class="modal-title" id="beforeAfterModalTitle">Añadir Comparación Antes / Después</h3>
+      </div>
+      <form onsubmit="handleSaveBeforeAfter(event)">
+        <input type="hidden" id="beforeAfterEditId">
+        
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Título del Proyecto (Pestaña) *</label>
+          <input type="text" id="modalBaTitle" class="admin-input" required placeholder="Ej: Falso Techo & Iluminación LED">
+        </div>
+
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label">Categoría de la Obra</label>
+          <select id="modalBaCategory" class="admin-select">
+            <option value="Techos">Techos & Iluminación</option>
+            <option value="Tabiques">Tabiquería & Estructura</option>
+            <option value="Muebles">Muebles de Pladur</option>
+            <option value="Locales">Locales & Reformas</option>
+            <option value="Aislamiento">Aislamiento Acústico</option>
+          </select>
+        </div>
+
+        <!-- FOTO ANTES -->
+        <div class="admin-form-group" style="margin-bottom: 1.25rem; background: rgba(245, 158, 11, 0.04); padding: 1rem; border-radius: 8px; border: 1px dashed rgba(245, 158, 11, 0.3);">
+          <label class="admin-label" style="color: #f59e0b; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 8px; height: 8px; background: #f59e0b; border-radius: 50%;"></span>
+            Foto del ANTES (En bruto / Estructura) *
+          </label>
+          <div class="image-upload-zone" onclick="document.getElementById('modalBaBeforeFileInput').click()">
+            <svg class="image-upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <div class="image-upload-text">Subir foto del ANTES desde tu PC / Móvil</div>
+            <input type="file" id="modalBaBeforeFileInput" accept="image/*" style="display: none;" onchange="handleImageFileSelect(event, 'modalBaBeforeImage', 'baBeforePreviewBox', 'baBeforePreviewImg')">
+          </div>
+          <div class="image-preview-box" id="baBeforePreviewBox">
+            <img src="" id="baBeforePreviewImg" alt="Vista previa Antes">
+            <button type="button" class="image-preview-remove" onclick="clearImagePreview('modalBaBeforeImage', 'baBeforePreviewBox', 'baBeforePreviewImg')" title="Quitar foto">&times;</button>
+          </div>
+          <input type="text" id="modalBaBeforeImage" class="admin-input" style="margin-top: 0.5rem;" required placeholder="img/previo-falso-techo-hormigon.CvLVcDmd_2gnMT1.webp" oninput="updatePreviewFromUrl('modalBaBeforeImage', 'baBeforePreviewBox', 'baBeforePreviewImg')">
+          <div class="preset-images-strip" style="flex-wrap: wrap; margin-top: 0.4rem;">
+            <span style="font-size: 0.72rem; color: var(--admin-text-muted); width: 100%;">Sugerencias Antes:</span>
+            <span class="preset-chip" onclick="setPresetImage('modalBaBeforeImage', 'baBeforePreviewBox', 'baBeforePreviewImg', 'img/previo-falso-techo-hormigon.CvLVcDmd_2gnMT1.webp')">Hormigón Techo</span>
+            <span class="preset-chip" onclick="setPresetImage('modalBaBeforeImage', 'baBeforePreviewBox', 'baBeforePreviewImg', 'img/falso-techo-cinta-tornillos.DPfMgenv_ZVcPa4.webp')">Placas con Juntas</span>
+            <span class="preset-chip" onclick="setPresetImage('modalBaBeforeImage', 'baBeforePreviewBox', 'baBeforePreviewImg', 'img/perfileria-tabique-estructura.DlthMHk-_1GGuHp.webp')">Estructura Perfiles</span>
+            <span class="preset-chip" onclick="setPresetImage('modalBaBeforeImage', 'baBeforePreviewBox', 'baBeforePreviewImg', 'img/falso-techo-estructura-laser.DVKOl4RW_1XmsUU.webp')">Estructura Láser</span>
+          </div>
+        </div>
+
+        <!-- FOTO DESPUÉS -->
+        <div class="admin-form-group" style="margin-bottom: 1.25rem; background: rgba(34, 197, 94, 0.04); padding: 1rem; border-radius: 8px; border: 1px dashed rgba(34, 197, 94, 0.3);">
+          <label class="admin-label" style="color: #22c55e; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 8px; height: 8px; background: #22c55e; border-radius: 50%;"></span>
+            Foto del DESPUÉS (Obra terminada de lujo) *
+          </label>
+          <div class="image-upload-zone" onclick="document.getElementById('modalBaAfterFileInput').click()">
+            <svg class="image-upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <div class="image-upload-text">Subir foto del DESPUÉS desde tu PC / Móvil</div>
+            <input type="file" id="modalBaAfterFileInput" accept="image/*" style="display: none;" onchange="handleImageFileSelect(event, 'modalBaAfterImage', 'baAfterPreviewBox', 'baAfterPreviewImg')">
+          </div>
+          <div class="image-preview-box" id="baAfterPreviewBox">
+            <img src="" id="baAfterPreviewImg" alt="Vista previa Después">
+            <button type="button" class="image-preview-remove" onclick="clearImagePreview('modalBaAfterImage', 'baAfterPreviewBox', 'baAfterPreviewImg')" title="Quitar foto">&times;</button>
+          </div>
+          <input type="text" id="modalBaAfterImage" class="admin-input" style="margin-top: 0.5rem;" required placeholder="assets/images/techos-led.jpg" oninput="updatePreviewFromUrl('modalBaAfterImage', 'baAfterPreviewBox', 'baAfterPreviewImg')">
+          <div class="preset-images-strip" style="flex-wrap: wrap; margin-top: 0.4rem;">
+            <span style="font-size: 0.72rem; color: var(--admin-text-muted); width: 100%;">Sugerencias Después:</span>
+            <span class="preset-chip" onclick="setPresetImage('modalBaAfterImage', 'baAfterPreviewBox', 'baAfterPreviewImg', 'assets/images/techos-led.jpg')">Techo Foseado LED</span>
+            <span class="preset-chip" onclick="setPresetImage('modalBaAfterImage', 'baAfterPreviewBox', 'baAfterPreviewImg', 'img/reforma-local-diafano.DCvA8NBa_Z2qjvaE.webp')">Local Terminado</span>
+            <span class="preset-chip" onclick="setPresetImage('modalBaAfterImage', 'baAfterPreviewBox', 'baAfterPreviewImg', 'assets/images/hero-bg.jpg')">Salón Molduras</span>
+            <span class="preset-chip" onclick="setPresetImage('modalBaAfterImage', 'baAfterPreviewBox', 'baAfterPreviewImg', 'img/bano-ducha-travertino.qpW4YUMO_ZuDMfc.webp')">Baño Lujo</span>
+            <span class="preset-chip" onclick="setPresetImage('modalBaAfterImage', 'baAfterPreviewBox', 'baAfterPreviewImg', 'img/falso-techo-recien-montado.mKmm81ID_ZG1BbR.webp')">Falso Techo Liso</span>
+          </div>
+        </div>
+
+        <!-- EXPLICACIÓN / CAPTION -->
+        <div class="admin-form-group" style="margin-bottom: 1.5rem;">
+          <label class="admin-label">Descripción de la transformación (Visible en el pie del comparador)</label>
+          <textarea id="modalBaCaption" class="admin-textarea" placeholder="Ej: Falso techo suspendido de pladur con candileja perimetral de luz indirecta LED cálida en Madrid (Antes: Forjado de hormigón en bruto vs. Después: Acabado continuo de lujo)."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="width: 100%;">Guardar Comparación Antes / Después</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="adminToastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/store.js?v=3.1"></script>
+  <script src="js/admin.js?v=3.1"></script>
+</body>
+</html>
